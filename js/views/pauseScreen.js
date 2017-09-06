@@ -8,6 +8,7 @@ var React = require('react'),
     AdOverlay = require('../components/adOverlay'),
     UpNextPanel = require('../components/upNextPanel'),
     TextTrack = require('../components/textTrackPanel'),
+    Watermark = require('../components/watermark'),
     ResizeMixin = require('../mixins/resizeMixin'),
     Icon = require('../components/icon'),
     Utils = require('../components/utils'),
@@ -80,6 +81,7 @@ var PauseScreen = React.createClass({
       'oo-state-screen-description': true,
       'oo-pull-right': this.props.skinConfig.pauseScreen.infoPanelPosition.toLowerCase().indexOf("right") > -1
     });
+
     var actionIconClass = ClassNames({
       'oo-action-icon-pause': !this.props.pauseAnimationDisabled,
       'oo-action-icon': this.props.pauseAnimationDisabled,
@@ -107,16 +109,19 @@ var PauseScreen = React.createClass({
     return (
       <div className="oo-state-screen oo-pause-screen">
         <div className={fadeUnderlayClass}></div>
+
+        <a className="oo-state-screen-selectable" onClick={this.handleClick}></a>
+
+        <Watermark {...this.props} controlBarVisible={this.state.controlBarVisible}/>
+
         <div className={infoPanelClass}>
           {this.props.skinConfig.pauseScreen.showTitle ? titleMetadata : null}
           {this.props.skinConfig.pauseScreen.showDescription ? descriptionMetadata : null}
         </div>
 
-        <a className="oo-state-screen-selectable" onClick={this.handleClick}></a>
-
-        <a className={actionIconClass} onClick={this.handleClick}>
+        <button className={actionIconClass} onClick={this.handleClick} aria-hidden="true" tabIndex="-1">
           <Icon {...this.props} icon="pause" style={actionIconStyle}/>
-        </a>
+        </button>
 
         <div className="oo-interactive-container">
           {this.props.closedCaptionOptions.enabled ?
@@ -126,8 +131,6 @@ var PauseScreen = React.createClass({
               responsiveView={this.props.responsiveView}
             /> : null
           }
-
-          <a className="oo-state-screen-selectable" onClick={this.handleClick}></a>
 
           {adOverlay}
 

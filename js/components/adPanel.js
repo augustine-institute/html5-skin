@@ -57,7 +57,16 @@ var AdPanel = React.createClass({
     var adTopBarItems = [];
 
     // // Ad title
-    var adTitle = this.props.currentAdsInfo.currentAdItem.name;
+    var adTitle = "Unknown";
+    if (this.props.currentAdsInfo && 
+        this.props.currentAdsInfo.currentAdItem && 
+        this.props.contentTree && 
+        this.props.currentAdsInfo.currentAdItem.ooyalaAds && 
+        this.props.contentTree.title) {
+      adTitle = this.props.contentTree.title;
+    } else {
+      adTitle = this.props.currentAdsInfo.currentAdItem.name;
+    }
     // AMC puts "Unknown" in the name field if ad name unavailable
     if (this.isValidAdPlaybackInfo(adTitle) && this.props.componentWidth > 560) {
       var adTitleDiv = <AdPanelTopBarItem key="adTitle" ref="adTitle" itemClassName="oo-ad-title">{adTitle}</AdPanelTopBarItem>;
@@ -74,15 +83,22 @@ var AdPanel = React.createClass({
 
     var isLive = this.props.currentAdsInfo.currentAdItem.isLive;
 
-    var remainingTime;
-    if (isLive) {
-      remainingTime = parseInt((this.props.adStartTime + this.props.adVideoDuration * 1000 - new Date().getTime())/1000);
-    } else {
-      remainingTime = parseInt(this.props.adVideoDuration - this.props.currentPlayhead)
-    }
-    remainingTime = Utils.formatSeconds(Math.max(0, remainingTime));
+    if (this.props.skinConfig.adScreen.showAdCountDown) {
+      var remainingTime;
+      if (isLive) {
+        remainingTime = parseInt((this.props.adStartTime + this.props.adVideoDuration * 1000 - new Date().getTime())/1000);
+      } else {
+        remainingTime = parseInt(this.props.adVideoDuration - this.props.currentAdPlayhead)
+      }
 
-    adPlaybackInfo = adPlaybackInfo + " - " + remainingTime;
+      if (isFinite(remainingTime)) {
+        remainingTime = Utils.formatSeconds(Math.max(0, remainingTime));
+        adPlaybackInfo = adPlaybackInfo + " - " + remainingTime;
+      }
+      else {
+        OO.log("ad remaining time is not a finite number");
+      }
+    }
 
     var adPlaybackInfoDiv = <AdPanelTopBarItem key="adPlaybackInfo" itemClassName="oo-ad-playback-info">{adPlaybackInfo}</AdPanelTopBarItem>;
     adTopBarItems.push(adPlaybackInfoDiv);
@@ -144,6 +160,7 @@ var AdPanel = React.createClass({
 
 AdPanel.defaultProps = {
   currentPlayhead: 0,
+  currentAdPlayhead: 0,
   adVideoDuration: 0,
   adStartTime: 0,
   currentAdsInfo: {

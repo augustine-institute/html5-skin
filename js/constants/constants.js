@@ -11,6 +11,7 @@ module.exports = {
   },
 
   SCREEN: {
+    INITIAL_SCREEN: "initialScreen",
     START_SCREEN: "startScreen",
     PLAYING_SCREEN: "playingScreen",
     PAUSE_SCREEN: "pauseScreen",
@@ -84,7 +85,30 @@ module.exports = {
     UNIFORM: "Uniform",
     DEPRESSED: "Depressed",
     RAISED: "Raised",
-    SHADOW: "Shadow"
+    SHADOW: "Shadow",
+    PLAY: "Play",
+    REPLAY: "Replay",
+    PAUSE: "Pause",
+    MUTE: "Mute",
+    UNMUTE: "Unmute",
+    CLOSED_CAPTIONS: "Closed Captions",
+    FULL_SCREEN: "Full Screen",
+    EXIT_FULL_SCREEN: "Exit Full Screen",
+    VIDEO_QUALITY: "Video Quality",
+    SHARE: "Share",
+    MORE_OPTIONS: "More Options"
+  },
+
+  ARIA_LABELS: {
+    VIDEO_PLAYER: "Video Player",
+    START_PLAYBACK: "Start Playback",
+    PLAY: "Play",
+    PAUSE: "Pause",
+    REPLAY: "Replay",
+    MUTE: "Mute",
+    UNMUTE: "Unmute",
+    FULLSCREEN: "Fullscreen",
+    EXIT_FULLSCREEN: "Exit Fullscreen",
   },
 
   KEYCODES: {
@@ -101,6 +125,10 @@ module.exports = {
     DEFAULT_SCRUBBERBAR_LEFT_RIGHT_PADDING: 15
   },
 
+  WATERMARK: {
+    DEFAULT_SCALING_PERCENTAGE: 10
+  },
+
   AD_CLICK_SOURCE:{
     VIDEO_WINDOW: "videoWindow",
     LEARN_MORE_BUTTON: "learnMoreButton",
@@ -113,7 +141,9 @@ module.exports = {
 
   MEDIA_TYPE: {
     HTML5: "html5",
-    FLASH: "flash"
+    FLASH: "flash",
+    VIDEO: "video",
+    OBJECT: "object"
   },
 
   ERROR_MESSAGE: {

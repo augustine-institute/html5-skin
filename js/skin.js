@@ -59,11 +59,12 @@ var Skin = React.createClass({
     this.setState(newState);
   },
 
-  updatePlayhead: function(newPlayhead, newDuration, newBuffered) {
+  updatePlayhead: function(newPlayhead, newDuration, newBuffered, adPlayhead) {
     this.setState({
       currentPlayhead: newPlayhead,
       duration: newDuration,
-      buffered: newBuffered
+      buffered: newBuffered,
+      currentAdPlayhead: adPlayhead
     });
   },
 
@@ -86,6 +87,14 @@ var Skin = React.createClass({
     //switch screenToShow
     else {
       switch (this.state.screenToShow) {
+        case CONSTANTS.SCREEN.INITIAL_SCREEN:
+          screen = (
+            <StartScreen {...this.props}
+              componentWidth={this.state.componentWidth}
+              contentTree={this.state.contentTree}
+              isInitializing={true} />
+          );
+          break;
         case CONSTANTS.SCREEN.LOADING_SCREEN:
           screen = (
             <Spinner loadingImage={this.props.skinConfig.general.loadingImage.imageResource.url}/>
@@ -95,7 +104,8 @@ var Skin = React.createClass({
           screen = (
             <StartScreen {...this.props}
               componentWidth={this.state.componentWidth}
-              contentTree={this.state.contentTree} />
+              contentTree={this.state.contentTree}
+              isInitializing={false} />
           );
           break;
         case CONSTANTS.SCREEN.PLAYING_SCREEN:
@@ -175,6 +185,7 @@ var Skin = React.createClass({
               contentTree={this.state.contentTree}
               currentAdsInfo={this.state.currentAdsInfo}
               currentPlayhead={this.state.currentPlayhead}
+              currentAdPlayhead={this.state.currentAdPlayhead}
               fullscreen={this.state.fullscreen}
               playerState={this.state.playerState}
               duration={this.state.duration}
@@ -199,6 +210,7 @@ var Skin = React.createClass({
               <DiscoveryPanel
                 {...this.props}
                 videosPerPage={{xs:2, sm:4, md:6, lg:8}}
+                forceCountDownTimer={this.state.forceCountDownTimerOnEndScreen}
                 discoveryData={this.state.discoveryData}
                 playerState={this.state.playerState}
                 responsiveView={this.state.responsiveId}
