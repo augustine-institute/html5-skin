@@ -22,10 +22,7 @@ var ClosedCaptionPopover = React.createClass({
 
   render: function() {
     var captionBtnText = Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.CC_OPTIONS, this.props.localizableStrings);
-    // OLD CODE
-    // <li>
-    //   <a className="oo-more-captions" onClick={this.handleMoreCaptions}>{captionBtnText} <Icon {...this.props} icon="arrowRight" className={this.props.className}/></a>
-    // </li>
+
     return (
       <ul className="oo-popover-horizontal" role="menu">
         <li role="presentation">

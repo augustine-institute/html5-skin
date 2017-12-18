@@ -160,12 +160,6 @@ var PauseScreen = React.createClass({
         controlBarVisible={this.state.controlBarVisible}
       /> : null;
 
-      // OLD CODE
-      // <a className="oo-state-screen-selectable" onClick={this.handleClick}></a>
-      //
-      // <a ngIf="!this.isMobile" className={actionIconClass} onClick={this.handleClick}>
-      //   <Icon {...this.props} icon="pause" style={actionIconStyle}/>
-      // </a>
     return (
       <div className="oo-state-screen oo-pause-screen">
 

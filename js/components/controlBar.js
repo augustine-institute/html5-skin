@@ -294,26 +294,25 @@ var ControlBar = React.createClass({
     this.props.controller.state.focusedControl = null;
   },
 
-  // OLD CODE
-  // handleScrubBack: function(){
-  //   this.props.controller.seek(this.props.currentPlayhead-10);
-  // },
-  //
-  // handleScrubForward: function(){
-  //   this.props.controller.seek(this.props.currentPlayhead+10);
-  // },
-  //
-  // handleSkipBack: function(){
-  //   this.props.controller.goToPrevChapter();
-  // },
-  //
-  // handleSkipForward: function(){
-  //   this.props.controller.goToNextChapter();
-  // },
-  //
-  // handlePlaybackSpeed: function(){
-  //   this.props.controller.changePlaybackSpeed(); // This method does not exist - so need to create it
-  // },
+  handleScrubBack: function(){
+    this.props.controller.seek(this.props.currentPlayhead-10);
+  },
+
+  handleScrubForward: function(){
+    this.props.controller.seek(this.props.currentPlayhead+10);
+  },
+
+  handleSkipBack: function(){
+    this.props.controller.goToPrevChapter();
+  },
+
+  handleSkipForward: function(){
+    this.props.controller.goToNextChapter();
+  },
+
+  handlePlaybackSpeed: function(){
+    this.props.controller.changePlaybackSpeed(); // This method does not exist - so need to create it
+  },
 
   /**
    * Will handle the keydown event when the controlBar is active and it will restrict
@@ -539,45 +538,28 @@ var ControlBar = React.createClass({
         </a>
       }).bind(this),
 
-      // OLD CODE
-      // <div className="oo-volume-wrapper" onMouseEnter={this.handleVolumeHover} onMouseLeave={this.handleVolumeOut}>
-      //   <button className="oo-mute-unmute oo-control-bar-item"
-      //     onClick={this.handleVolumeIconClick}
-      //     onMouseUp={this.blurOnMouseUp}
-      //     onMouseOver={this.highlight}
-      //     onMouseOut={this.removeHighlight}
-      //     tabIndex="0"
-      //     aria-label={volumeAriaLabel}>
-      //     <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
-      //       style={this.props.skinConfig.controlBar.iconStyle.inactive} />
-      //     <Tooltip enabled={isTooltipEnabled}
-      //       text={this.props.controller.state.volumeState.muted ? Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.UNMUTE, this.props.localizableStrings) : Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.MUTE, this.props.localizableStrings)}
-      //       responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment}>
-      //     </Tooltip>
-      //   </button>
-      //   {volumeControls}
-      // </div>
-
       "volume": (function (alignment) {
         return <div className="oo-volume oo-control-bar-item" key="volume">
-          <button
-            type="button"
-            className="oo-mute-unmute oo-control-bar-item"
-            onClick={this.handleVolumeIconClick}
-            onMouseUp={Utils.blurOnMouseUp}
-            onMouseOver={this.highlight}
-            onMouseOut={this.removeHighlight}
-            data-focus-id={CONSTANTS.FOCUS_IDS.MUTE_UNMUTE}
-            tabIndex="0"
-            aria-label={volumeAriaLabel}>
-            <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
-              style={this.props.skinConfig.controlBar.iconStyle.inactive} />
-            <Tooltip enabled={isTooltipEnabled}
-              text={mutedInUi ? Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.UNMUTE, this.props.localizableStrings) : Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.MUTE, this.props.localizableStrings)}
-              responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment}>
-            </Tooltip>
-          </button>
-          <VolumeControls {...this.props} />
+          <div className="oo-volume-wrapper" onMouseEnter={this.handleVolumeHover} onMouseLeave={this.handleVolumeOut}>
+            <button
+              type="button"
+              className="oo-mute-unmute oo-control-bar-item"
+              onClick={this.handleVolumeIconClick}
+              onMouseUp={Utils.blurOnMouseUp}
+              onMouseOver={this.highlight}
+              onMouseOut={this.removeHighlight}
+              data-focus-id={CONSTANTS.FOCUS_IDS.MUTE_UNMUTE}
+              tabIndex="0"
+              aria-label={volumeAriaLabel}>
+              <Icon {...this.props} icon={volumeIcon} ref="volumeIcon"
+                style={this.props.skinConfig.controlBar.iconStyle.inactive} />
+              <Tooltip enabled={isTooltipEnabled}
+                text={mutedInUi ? Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.UNMUTE, this.props.localizableStrings) : Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.MUTE, this.props.localizableStrings)}
+                responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment}>
+              </Tooltip>
+            </button>
+            {volumeControls}
+          </div>
         </div>
       }).bind(this),
 
@@ -644,16 +626,6 @@ var ControlBar = React.createClass({
           <Tooltip enabled={isTooltipEnabled} text={Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.DISCOVER, this.props.localizableStrings)} responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment} />
         </a>
       }).bind(this),
-
-      // OLD CODE
-      // <div className="oo-cc-wrapper">
-      //   {closedCaptionPopover}
-      //   <a className={captionClass} onClick={this.handleClosedCaptionClick} style={selectedStyle} aria-hidden="true">
-      //     <Icon {...this.props} icon="cc" style={dynamicStyles.iconCharacter}
-      //       onMouseOver={this.highlight} onMouseOut={this.removeHighlight} />
-      //     <Tooltip enabled={isTooltipEnabled} text={Utils.getLocalizedString(this.props.language, CONSTANTS.SKIN_TEXT.CLOSED_CAPTIONS, this.props.localizableStrings)} responsivenessMultiplier={this.responsiveUIMultiple} bottom={this.responsiveUIMultiple * this.props.skinConfig.controlBar.height} alignment={alignment} />
-      //   </a>
-      // </div>
 
       "closedCaption": (function (alignment) {
         return (

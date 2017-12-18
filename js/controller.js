@@ -1493,11 +1493,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     togglePlayPause: function() {
       switch (this.state.playerState) {
         case CONSTANTS.STATE.START:
-          // OLD CODE
-          // this.mb.publish(OO.EVENTS.INITIAL_PLAY, Date.now());
-          // if(this.state.isMobile) {
-          //   this.mb.publish(OO.EVENTS.PLAY, Date.now());
-          // }
 
           if (!this.state.isInitialPlay){
             this.mb.publish(OO.EVENTS.INITIAL_PLAY, Date.now(), false);
@@ -1633,19 +1628,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       };
       this.mb.publish(OO.EVENTS.DISCOVERY_API.SEND_DISPLAY_EVENT, eventData);
     },
-
-    // OLD CODE
-    // toggleClosedCaptionPopOver: function() {
-    //   if(!this.state.closedCaptionOptions.showClosedCaptionPopover){
-    //     var ccButton = document.getElementsByClassName("playericon-captions");
-    //     $(ccButton[0]).addClass("clicked");
-    //   } else {
-    //     var ccButton = document.getElementsByClassName("playericon-captions");
-    //     $(ccButton[0]).removeClass("clicked");
-    //   }
-    //   this.state.closedCaptionOptions.showClosedCaptionPopover = !this.state.closedCaptionOptions.showClosedCaptionPopover;
-    //   this.renderSkin();
-    // }
 
     togglePopover: function(menu) {
       var menuOptions = this.state[menu];
