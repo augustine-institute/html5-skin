@@ -477,10 +477,7 @@ describe('ControlBar', function () {
   it('should reset quality menu toggle keyboard flag when closing video quality popover', function() {
     baseMockController.state.videoQualityOptions.availableBitrates = [];
     baseMockProps.skinConfig.buttons.desktopContent = [
-      { "name": "playPause", "location": "controlBar", "whenDoesNotFit": "keep", "minWidth": 45 },
-      { "name": "volume", "location": "controlBar", "whenDoesNotFit": "keep", "minWidth": 240 },
-      { "name": "quality", "location": "controlBar", "whenDoesNotFit": "keep", "minWidth": 45 },
-      { "name": "fullscreen", "location": "controlBar", "whenDoesNotFit": "keep", "minWidth": 45 },
+      { "name": "quality", "location": "controlBar", "whenDoesNotFit": "keep", "minWidth": 45 }
     ];
     baseMockController.togglePopover = function() {
       this.state.videoQualityOptions.showPopover = !this.state.videoQualityOptions.showPopover;
@@ -1809,7 +1806,7 @@ describe('ControlBar', function () {
     oneButtonSkinConfig.buttons.desktopContent = [
       {"name":"logo", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":130 }
     ];
-    oneButtonSkinConfig.controlBar.logo.imageResource.url = "//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/assets/images/ooyala-logo.svg";
+    oneButtonSkinConfig.controlBar.logo.imageResource.url = "//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/assets/images/ooyala-logo.svg";
     oneButtonSkinConfig.controlBar.logo.clickUrl = "http://www.ooyala.com";
 
     var mockProps = {

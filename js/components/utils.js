@@ -82,6 +82,19 @@ var Utils = {
   },
 
   /**
+   * Same as Number.toFixed(), except that it returns a Number instead of a string.
+   * @function toFixedNumber
+   * @param {Object} value The numerical value to process.
+   * @param {Number} digits The number of digits to appear after the decimal point.
+   * @return {Number} The equivalent of value with the specified precision. Will return 0 if value is not a valid number.
+   */
+  toFixedNumber: function(value, digits) {
+    var result = this.ensureNumber(value, 0);
+    result = this.ensureNumber(result.toFixed(digits));
+    return result;
+  },
+
+  /**
    * Returns the currentTime and totalTime values in HH:MM format that can be used for
    * a video time display UI or for ARIA labels.
    * Note that the meaning of these values changes depending on the type of video:
@@ -588,7 +601,7 @@ var Utils = {
     if (isVideoVr && width < CONSTANTS.THUMBNAIL.MAX_VR_THUMBNAIL_BG_WIDTH) {
       // it is necessary to take bigger image for showing part of the image
       // so choose not the lowest size but bigger one, the best width is 380
-      var index = thumbnails.data.available_widths.length >= 5 ? 4 : thumbnails.data.available_widths.length - 1;
+      var index = (thumbnails.data.available_widths.length - 1) >= CONSTANTS.THUMBNAIL.THUMBNAIL_VR_RATIO ? CONSTANTS.THUMBNAIL.THUMBNAIL_VR_RATIO : thumbnails.data.available_widths.length - 1;
       width = thumbnails.data.available_widths[index];
     }
 
@@ -846,7 +859,29 @@ var Utils = {
   _cloneIfNecessary: function (value, optionsArgument) {
     var clone = optionsArgument && optionsArgument.clone === true;
     return (clone && this._isMergeableObject(value)) ? DeepMerge(this._emptyTarget(value), value, optionsArgument) : value
-  }
+  },
+
+  /**
+   * @description - returns the correct coordinates of events depending on the platform
+   * @param e - event
+   * @returns {object} - coordinates x, y
+   */
+  getCoords: function(e) {
+    var coords = {};
+    var isMobileTouhes = (OO.isIos || OO.isAndroid) &&
+      e.touches &&
+      !!e.touches.length;
+
+    if(isMobileTouhes){
+      coords.x = e.touches[0].pageX;
+      coords.y = e.touches[0].pageY;
+    } else {
+      coords.x = e.pageX;
+      coords.y = e.pageY;
+    }
+
+    return coords;
+  },
 };
 
 module.exports = Utils;
