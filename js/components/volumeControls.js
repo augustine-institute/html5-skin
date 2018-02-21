@@ -3,9 +3,19 @@ var ReactDOM = require('react-dom');
 var ClassNames = require('classnames');
 var Slider = require('./slider');
 var Utils = require('./utils');
+var MACROS = require('../constants/macros');
 var CONSTANTS = require('../constants/constants');
 
 var VolumeControls = React.createClass({
+
+  volumeChange: function(vol) {
+    var newVol = Utils.ensureNumber(vol, 1);
+    this.props.controller.setVolume(newVol);
+    //unmute when volume is changed when muted
+    if (newVol !== 0) {
+      this.props.controller.toggleMute(false, true);
+    }
+  },
 
   handleVolumeClick: function(event) {
     var clickedBarVolume = Utils.getPropertyValue(event, 'currentTarget.dataset.volume');
@@ -18,14 +28,13 @@ var VolumeControls = React.createClass({
 
     if (typeof clickedBarVolume !== 'undefined') {
       event.preventDefault();
-      var newVolume = Utils.ensureNumber(clickedBarVolume);
-      this.props.controller.setVolume(newVolume);
+      this.volumeChange(clickedBarVolume);
     }
   },
 
-  handleVolumeSliderChange: function(event) {
-    var newVolume = parseFloat(event.target.value);
-    this.props.controller.setVolume(newVolume);
+  handleVolumeSliderChange: function(value) {
+    var newVolume = parseFloat(value);
+    this.volumeChange(newVolume);
   },
 
   handleVolumeCtrlsKeyDown: function(evt) {
@@ -76,7 +85,7 @@ var VolumeControls = React.createClass({
    * @return {String} The current volume in a screen reader friendly format (i.e. 20% volume).
    */
   getAriaValueText: function() {
-    return CONSTANTS.ARIA_LABELS.VOLUME_PERCENT.replace('{volume}', this.getVolumePercent());
+    return CONSTANTS.ARIA_LABELS.VOLUME_PERCENT.replace(MACROS.VOLUME, this.getVolumePercent());
   },
 
   /**
@@ -88,7 +97,7 @@ var VolumeControls = React.createClass({
     for (var i = 0; i < 10; i++) {
       // Create each volume tick separately
       var barVolume = (i + 1) / 10;
-      var turnedOn = this.props.controller.state.volumeState.volume >= barVolume;
+      var turnedOn = this.props.controller.state.volumeState.volume >= barVolume && !this.props.controller.state.volumeState.muted;
       var volumeClass = ClassNames({
         'oo-volume-bar': true,
         'oo-on': turnedOn
@@ -121,7 +130,7 @@ var VolumeControls = React.createClass({
         aria-valuemax="100"
         aria-valuenow={volumePercent}
         aria-valuetext={ariaValueText}
-        data-focus-id="volumeControls"
+        data-focus-id={CONSTANTS.FOCUS_IDS.VOLUME_CONTROLS}
         tabIndex="0"
         onMouseDown={this.handleVolumeCtrlsMouseDown}
         onMouseUp={Utils.blurOnMouseUp}
@@ -135,30 +144,20 @@ var VolumeControls = React.createClass({
    * Renders the volume slider that is shown on mobile web.
    */
   renderVolumeSlider: function() {
-    var volumePercent = this.getVolumePercent();
-    var ariaValueText = this.getAriaValueText();
-
     return (
-      <div
-        className="oo-volume-slider"
-        role="slider"
-        aria-label={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow={volumePercent}
-        aria-valuetext={ariaValueText}
-        data-focus-id="volumeSlider"
-        tabIndex="0"
-        onMouseUp={Utils.blurOnMouseUp}
-        onKeyDown={this.handleVolumeCtrlsKeyDown}>
+      <div className="oo-volume-slider">
         <Slider
           value={parseFloat(this.props.controller.state.volumeState.volume)}
-          className="oo-slider oo-slider-volume"
+          className="oo-slider-volume"
           itemRef="volumeSlider"
           role="presentation"
-          minValue="0"
-          maxValue="1"
-          step="0.1"
+          minValue={0}
+          maxValue={1}
+          step={0.1}
+          usePercentageForAria={true}
+          ariaLabel={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
+          settingName={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
+          focusId={CONSTANTS.FOCUS_IDS.VOLUME_SLIDER}
           onChange={this.handleVolumeSliderChange} />
       </div>
     );
@@ -183,7 +182,8 @@ VolumeControls.propTypes = {
       isMobile: React.PropTypes.bool.isRequired,
       volumeState: React.PropTypes.shape({
         volumeSliderVisible: React.PropTypes.bool.isRequired,
-        volume: React.PropTypes.number.isRequired
+        volume: React.PropTypes.number.isRequired,
+        muted: React.PropTypes.bool.isRequired
       })
     }),
     setVolume: React.PropTypes.func.isRequired
