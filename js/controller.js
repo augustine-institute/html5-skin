@@ -241,6 +241,11 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
           this.mb.subscribe(OO.EVENTS.SHOW_AD_MARQUEE, "customerUi", _.bind(this.onShowAdMarquee, this));
         }
       }
+
+      // custom FORMED events
+      this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
+      this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
+
       this.state.isSubscribed = true;
     },
 
@@ -579,6 +584,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
+      console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
+      // custom for FORMED TOPIC SHARING
+      if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
+        this.mb.publish(OO.EVENTS.PAUSE);
+      }
+
       if (videoId == OO.VIDEO.MAIN) {
         this.state.mainVideoPlayhead = currentPlayhead;
         this.state.mainVideoDuration = duration;
@@ -2090,6 +2101,24 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       // workaround, we remove the blur class from both the video element and it's container.
       if (this.state.mainVideoElementContainer && this.state.mainVideoElementContainer.classList) {
         this.state.mainVideoElementContainer.classList.remove('oo-blur');
+      }
+    },
+
+    onMinUpdated: function (event, min) {
+      this.state.min = min;
+      this.mb.publish(OO.EVENTS.PAUSE)
+      console.log("MIN RECEIVED: ", min);
+      if (this.state.mainVideoPlayhead < min){
+        // update playhead to min
+      }
+    },
+
+    onMaxUpdated: function (event, max) {
+      this.state.max = max;
+      this.mb.publish(OO.EVENTS.PAUSE)
+      console.log("MAX RECEIVED: ", max);
+      if (this.state.mainVideoPlayhead > max) {
+        // update playhead to min
       }
     }
 
