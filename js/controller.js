@@ -584,7 +584,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
+      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -2107,7 +2107,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onMinUpdated: function (event, min) {
       this.state.min = min;
       this.mb.publish(OO.EVENTS.PAUSE)
-      console.log("MIN RECEIVED: ", min);
+      // console.log("MIN RECEIVED: ", min);
       if (this.state.mainVideoPlayhead < min){
         // update playhead to min
       }
@@ -2116,9 +2116,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onMaxUpdated: function (event, max) {
       this.state.max = max;
       this.mb.publish(OO.EVENTS.PAUSE)
-      console.log("MAX RECEIVED: ", max);
+      // console.log("MAX RECEIVED: ", max);
       if (this.state.mainVideoPlayhead > max) {
-        // update playhead to min
+        // update playhead to min to start the user over again
       }
     }
 

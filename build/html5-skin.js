@@ -9025,7 +9025,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.20.7", "rev": "5df9d7e8886a014e00899e57d28a2f4696e212db"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.20.7", "rev": "4d380765951e87c9f23f1cefbdf0ccd26e88bb6a"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -9587,7 +9587,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
+      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -11110,7 +11110,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onMinUpdated: function (event, min) {
       this.state.min = min;
       this.mb.publish(OO.EVENTS.PAUSE)
-      console.log("MIN RECEIVED: ", min);
+      // console.log("MIN RECEIVED: ", min);
       if (this.state.mainVideoPlayhead < min){
         // update playhead to min
       }
@@ -11119,9 +11119,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onMaxUpdated: function (event, max) {
       this.state.max = max;
       this.mb.publish(OO.EVENTS.PAUSE)
-      console.log("MAX RECEIVED: ", max);
+      // console.log("MAX RECEIVED: ", max);
       if (this.state.mainVideoPlayhead > max) {
-        // update playhead to min
+        // update playhead to min to start the user over again
       }
     }
 
