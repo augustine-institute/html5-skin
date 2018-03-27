@@ -27,6 +27,4 @@ var ShareButton = React.createClass({
   }
 });
 
-// <button type="button" aria-hidden="true" className="oo-share-link"><i className='fa fa-share' aria-hidden="true"></i>&nbsp;Share</button>
-
 module.exports = ShareButton;
