@@ -16,7 +16,8 @@ var React = require('react'),
   ViewControlsVr = require('../components/viewControlsVr'),
   Icon = require('../components/icon'),
   Tooltip = require('../components/tooltip'),
-  UnmuteIcon = require('../components/unmuteIcon');
+  UnmuteIcon = require('../components/unmuteIcon'),
+  ShareButton = require('../components/shareButton');
 
 var PlayingScreen = React.createClass({
   mixins: [ResizeMixin],
@@ -307,6 +308,11 @@ var PlayingScreen = React.createClass({
         onTouchEnd={this.handleTouchEnd}
         onClick={this.handlePlayerClicked}
         onFocus={this.handlePlayerFocus}
+      />
+
+      <ShareButton
+        {...this.props}
+        controlBarVisible={this.state.controlBarVisible}
       />
 
       {vrNotification}
