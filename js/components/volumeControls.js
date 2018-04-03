@@ -32,8 +32,8 @@ var VolumeControls = React.createClass({
     }
   },
 
-  handleVolumeSliderChange: function(value) {
-    var newVolume = parseFloat(value);
+  handleVolumeSliderChange: function(event) {
+    var newVolume = parseFloat(event.target.value);
     this.volumeChange(newVolume);
   },
 
@@ -144,20 +144,30 @@ var VolumeControls = React.createClass({
    * Renders the volume slider that is shown on mobile web.
    */
   renderVolumeSlider: function() {
+    var volumePercent = this.getVolumePercent();
+    var ariaValueText = this.getAriaValueText();
+
     return (
-      <div className="oo-volume-slider">
+      <div
+        className="oo-volume-slider"
+        role="slider"
+        aria-label={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={volumePercent}
+        aria-valuetext={ariaValueText}
+        data-focus-id={CONSTANTS.FOCUS_IDS.VOLUME_SLIDER}
+        tabIndex="0"
+        onMouseUp={Utils.blurOnMouseUp}
+        onKeyDown={this.handleVolumeCtrlsKeyDown}>
         <Slider
           value={parseFloat(this.props.controller.state.volumeState.volume)}
-          className="oo-slider-volume"
+          className="oo-slider oo-slider-volume"
           itemRef="volumeSlider"
           role="presentation"
-          minValue={0}
-          maxValue={1}
-          step={0.1}
-          usePercentageForAria={true}
-          ariaLabel={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
-          settingName={CONSTANTS.ARIA_LABELS.VOLUME_SLIDER}
-          focusId={CONSTANTS.FOCUS_IDS.VOLUME_SLIDER}
+          minValue="0"
+          maxValue="1"
+          step="0.1"
           onChange={this.handleVolumeSliderChange} />
       </div>
     );

@@ -275,19 +275,19 @@ describe('Utils', function () {
         availableLanguageFile: [
           {
             "language": "en",
-            "languageFile": "//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/en.json",
+            "languageFile": "//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/en.json",
             "androidResource": "skin-config/en.json",
             "iosResource": "en"
           },
           {
             "language": "es",
-            "languageFile": "//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/es.json",
+            "languageFile": "//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/es.json",
             "androidResource": "skin-config/es.json",
             "iosResource": "es"
           },
           {
             "language": "zh",
-            "languageFile": "//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/zh.json",
+            "languageFile": "//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/zh.json",
             "androidResource": "skin-config/zh.json",
             "iosResource": "zh"
           }
@@ -311,7 +311,7 @@ describe('Utils', function () {
   });
 
   it('tests getStartCountdown', function () {
-    var text = "6 days, 5 hours, and 14 minutes"; 
+    var text = "6 days, 5 hours, and 14 minutes";
     var countDownText = Utils.getStartCountdown(537289879);
     expect(countDownText).toBe(text);
 

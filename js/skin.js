@@ -80,13 +80,10 @@ var Skin = React.createClass({
    */
   handleVrPlayerMouseDown: function(e) {
     if (this.props.controller.videoVr) {
-
-      var coords = Utils.getCoords(e);
-
       this.setState({
         isVrMouseDown: true,
-        xVrMouseStart: coords.x,
-        yVrMouseStart: coords.y
+        xVrMouseStart: e.pageX,
+        yVrMouseStart: e.pageY
       });
       if (typeof this.props.controller.checkVrDirection === 'function') {
         this.props.controller.checkVrDirection();
@@ -104,11 +101,8 @@ var Skin = React.createClass({
       this.setState({
         isVrMouseMove: true
       });
-
-      var coords = Utils.getCoords(e);
-
       if (typeof this.props.controller.onTouchMove === 'function') {
-        var params = this.getDirectionParams(coords.x, coords.y);
+        var params = this.getDirectionParams(e.pageX, e.pageY);
         this.props.controller.onTouchMove(params, true);
       }
     }
@@ -386,9 +380,8 @@ var Skin = React.createClass({
             screen={CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN}
             screenClassName="oo-content-screen oo-content-screen-closed-captions"
             titleText={CONSTANTS.SKIN_TEXT.CC_OPTIONS}
-            autoFocus={this.state.closedCaptionOptions.autoFocus}
             closedCaptionOptions={this.props.closedCaptionOptions}
-            element={<OnOffSwitch {...this.props} ariaLabel={CONSTANTS.ARIA_LABELS.TOGGLE_CLOSED_CAPTIONS} />}
+            element={<OnOffSwitch {...this.props} />}
             icon="cc">
             <ClosedCaptionPanel
               {...this.props}

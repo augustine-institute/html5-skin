@@ -1,5 +1,4 @@
 .oo-content-screen {
-  position: relative;
   padding: $panel-padding;
   background-color: $panel-bg;
   @include expand;
@@ -27,10 +26,4 @@
 .oo-content-panel {
   height: 100%;
   overflow: hidden;
-}
-
-.oo-content-screen .oo-close-button {
-  position: absolute;
-  top: $panel-padding;
-  right: $panel-padding;
 }
