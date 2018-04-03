@@ -46,10 +46,8 @@ var PauseScreen = React.createClass({
   },
 
   handleClick: function(event) {
-    if (this.props.controller.videoVr) {
-      event.preventDefault();
-    }
-    if (!this.props.isVrMouseMove){
+    event.preventDefault();
+    if(!this.props.isVrMouseMove){
       this.props.controller.togglePlayPause(event);
     }
     this.props.controller.state.accessibilityControlsEnabled = true;
@@ -58,18 +56,12 @@ var PauseScreen = React.createClass({
   },
 
   handlePlayerMouseDown: function(e) {
-    if (this.props.controller.videoVr) {
-      e.persist();
-    }
     this.props.controller.state.accessibilityControlsEnabled = true;
     this.props.controller.state.isClickedOutside = false;
     this.props.handleVrPlayerMouseDown(e);
   },
   handlePlayerMouseMove: function(e) {
-    if (this.props.controller.videoVr) {
-      e.preventDefault();
-      e.persist();
-    }
+    e.preventDefault();
     this.props.handleVrPlayerMouseMove(e);
   },
   handlePlayerMouseUp: function(e) {
@@ -77,7 +69,6 @@ var PauseScreen = React.createClass({
     e.cancelBubble = true; // IE
     this.props.handleVrPlayerMouseUp();
   },
-
   handlePlayerMouseLeave: function() {
     this.props.handleVrPlayerMouseLeave()
   },
@@ -187,10 +178,8 @@ var PauseScreen = React.createClass({
           className="oo-state-screen-selectable"
           onClick={this.handleClick}
           onMouseDown={this.handlePlayerMouseDown}
-          onTouchStart={this.handlePlayerMouseDown}
           onMouseUp={this.handlePlayerMouseUp}
           onMouseMove={this.handlePlayerMouseMove}
-          onTouchMove={this.handlePlayerMouseMove}
           onMouseLeave={this.handlePlayerMouseLeave}
         />
 

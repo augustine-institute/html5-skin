@@ -341,7 +341,6 @@
   -moz-osx-font-smoothing: grayscale; }
 
 .oo-player-container .oo-content-screen {
-  position: relative;
   padding: 24.5px;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -369,11 +368,6 @@
 .oo-player-container .oo-content-panel {
   height: 100%;
   overflow: hidden; }
-
-.oo-player-container .oo-content-screen .oo-close-button {
-  position: absolute;
-  top: 24.5px;
-  right: 24.5px; }
 
 .oo-player-container .oo-state-screen, .oo-player-container .oo-spinner-screen {
   overflow: hidden;
@@ -420,6 +414,7 @@
   .oo-player-container .oo-state-screen .oo-state-screen-selectable, .oo-player-container .oo-spinner-screen .oo-state-screen-selectable {
     text-decoration: none;
     cursor: default;
+    z-index: 1000;
     background-color: white;
     opacity: 0;
     filter: alpha(opacity=1); }
@@ -510,176 +505,6 @@
     bottom: 0;
     width: 100%;
     pointer-events: none; }
-
-.oo-player-container .oo-state-screen-vr-notification {
-  position: relative;
-  top: 20px;
-  max-width: 90%;
-  border-radius: 28px;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 15px 35px;
-  margin: 0;
-  opacity: 0;
-  z-index: 998;
-  will-change: transform, top, opacity;
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation-name: vrNotificationAnimation;
-  -moz-animation-name: vrNotificationAnimation;
-  -ms-animation-name: vrNotificationAnimation;
-  -o-animation-name: vrNotificationAnimation;
-  animation-name: vrNotificationAnimation;
-  -webkit-animation-duration: 5s;
-  -moz-animation-duration: 5s;
-  -ms-animation-duration: 5s;
-  -o-animation-duration: 5s;
-  animation-duration: 5s;
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  -ms-animation-delay: 1s;
-  -o-animation-delay: 1s;
-  animation-delay: 1s; }
-  .oo-player-container .oo-state-screen-vr-notification-container {
-    font-family: Roboto, "Open Sans", sans-serif;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    -ms-justify-content: center;
-    -o-justify-content: center;
-    justify-content: center; }
-
-.oo-player-container .oo-state-screen-vr-container {
-  opacity: 1;
-  filter: alpha(opacity=100);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  bottom: auto;
-  right: auto;
-  z-index: 998;
-  will-change: opacity;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  -webkit-animation-name: vrIconAnimation;
-  -moz-animation-name: vrIconAnimation;
-  -ms-animation-name: vrIconAnimation;
-  -o-animation-name: vrIconAnimation;
-  animation-name: vrIconAnimation;
-  -webkit-animation-duration: 4s;
-  -moz-animation-duration: 4s;
-  -ms-animation-duration: 4s;
-  -o-animation-duration: 4s;
-  animation-duration: 4s;
-  -webkit-animation-delay: 2s;
-  -moz-animation-delay: 2s;
-  -ms-animation-delay: 2s;
-  -o-animation-delay: 2s;
-  animation-delay: 2s; }
-
-.oo-player-container .oo-state-screen-vr-bg {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  font-size: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  width: 240px;
-  height: 240px;
-  overflow: hidden;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%; }
-
-.oo-player-container .oo-state-screen-vr-icon {
-  position: relative;
-  top: -4px;
-  font-size: 149px;
-  line-height: 1; }
-
-@-webkit-keyframes vrNotificationAnimation {
-  0% {
-    opacity: 0;
-    filter: alpha(opacity=0); }
-  40% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  60% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  100% {
-    opacity: 0;
-    filter: alpha(opacity=0); } }
-
-@keyframes vrNotificationAnimation {
-  0% {
-    opacity: 0;
-    filter: alpha(opacity=0); }
-  40% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  60% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  100% {
-    opacity: 0;
-    filter: alpha(opacity=0); } }
-
-@-webkit-keyframes vrIconAnimation {
-  0% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  100% {
-    opacity: 0;
-    filter: alpha(opacity=0); } }
-
-@keyframes vrIconAnimation {
-  0% {
-    opacity: 1;
-    filter: alpha(opacity=100); }
-  100% {
-    opacity: 0;
-    filter: alpha(opacity=0); } }
 
 .oo-player-container .oo-start-screen {
   z-index: 12005; }
@@ -992,13 +817,13 @@
     .oo-player-container .oo-share-tab-panel .oo-social-icon:last-child, .oo-player-container .oo-share-tab-panel .oo-facebook:last-child, .oo-player-container .oo-share-tab-panel .oo-twitter:last-child, .oo-player-container .oo-share-tab-panel .oo-google-plus:last-child, .oo-player-container .oo-share-tab-panel .oo-email-share:last-child {
       margin-right: 0; }
   .oo-player-container .oo-share-tab-panel .oo-facebook {
-    background-image: url("//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/assets/images/social-facebook.svg"); }
+    background-image: url("//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/assets/images/social-facebook.svg"); }
   .oo-player-container .oo-share-tab-panel .oo-twitter {
-    background-image: url("//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/assets/images/social-twitter.svg"); }
+    background-image: url("//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/assets/images/social-twitter.svg"); }
   .oo-player-container .oo-share-tab-panel .oo-google-plus {
-    background-image: url("//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/assets/images/social-google.svg"); }
+    background-image: url("//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/assets/images/social-google.svg"); }
   .oo-player-container .oo-share-tab-panel .oo-email-share {
-    background-image: url("//player.ooyala.com/static/v4/stable/4.20.8/skin-plugin/assets/images/social-email.svg");
+    background-image: url("//player.ooyala.com/static/v4/stable/4.19.3/skin-plugin/assets/images/social-email.svg");
     background-size: cover; }
   .oo-player-container .oo-share-tab-panel .oo-embed-form {
     resize: none;
@@ -1017,8 +842,8 @@
     background: linear-gradient(#0a0a0a, rgba(10, 10, 10, 0.6) 70%, rgba(20, 20, 20, 0)); }
 
 .oo-player-container .captions-navbar {
-  height: calc(100% - 24px);
-  margin-top: 24px; }
+  height: calc(100% - 26px);
+  margin-top: 26px; }
 
 .oo-player-container .tabs-menu-item {
   margin: 0; }
@@ -1126,7 +951,7 @@
     width: 800px;
     overflow: auto;
     white-space: nowrap; }
-    .oo-player-container .oo-data-selector .oo-data-panel .oo-item {
+    .oo-player-container .oo-data-selector .oo-data-panel a.oo-item {
       width: 144px;
       height: 36px;
       line-height: 27px;
@@ -1142,11 +967,10 @@
       color: #fff;
       transition: all 0.0s ease;
       cursor: pointer;
-      background-color: transparent;
       border-radius: 2px;
       border: 1px solid #55595c;
       outline: none; }
-    .oo-player-container .oo-data-selector .oo-data-panel .oo-item-selected {
+    .oo-player-container .oo-data-selector .oo-data-panel a.oo-item-selected {
       background-color: #448aff;
       border-radius: 4px; }
   .oo-player-container .oo-data-selector .oo-flexcontainer {
@@ -1161,18 +985,14 @@
     position: absolute;
     top: 48%;
     background-color: transparent;
-    height: auto;
+    height: 10%;
     width: 30px;
-    padding: 0;
-    color: white;
-    border: none; }
-  .oo-player-container .oo-data-selector .oo-discover-btn .oo-icon, .oo-player-container .oo-data-selector .oo-left-button .oo-icon, .oo-player-container .oo-data-selector .oo-right-button .oo-icon {
-    vertical-align: middle; }
+    color: white; }
   .oo-player-container .oo-data-selector .oo-left-button {
-    left: 1px;
+    left: 0;
     text-align: right; }
   .oo-player-container .oo-data-selector .oo-right-button {
-    right: 1px;
+    right: 0;
     text-align: left; }
 
 .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper {
@@ -1213,37 +1033,19 @@
         margin-right: 19px;
         margin-bottom: 26px; }
       .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-item-selected {
-        border: solid 3px #448aff;
+        border: solid #247dff 3px;
         border-radius: 50%; }
-      .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-item-selected .oo-color-item:focus::before {
-        box-shadow: 0 0 0 3px transparent, 0 0 0 5px #fff, 0 0 0 8px #448aff; }
       .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item {
         width: 20px;
         height: 20px;
-        border: none;
         border-radius: 50%;
         cursor: pointer;
         margin: auto;
-        padding: 0;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0; }
-      .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item:focus {
-        box-shadow: none; }
-        .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item:focus::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          border-radius: 50%;
-          box-shadow: 0 0 0 6px #448aff;
-          z-index: -1; }
-      .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item:hover:active::before {
-        content: none; }
       .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item-White {
         background-color: white; }
       .oo-player-container .oo-color-selection-tab .oo-color-selection-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-color-item-Blue {
@@ -1378,14 +1180,13 @@
           float: left;
           background-color: transparent;
           width: 25%;
+          height: 110px;
           min-width: 120px;
-          padding: 0;
-          border: none;
+          margin-bottom: 30px;
           cursor: pointer; }
           .oo-player-container .oo-font-size-tab .oo-font-size-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-font-size-container .oo-font-size-letter {
             color: #fff;
-            display: block;
-            height: 110px;
+            height: 100%;
             text-align: center;
             font-family: "Roboto Condensed Bold", sans-serif; }
           .oo-player-container .oo-font-size-tab .oo-font-size-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-font-size-container .oo-font-size-letter-Small {
@@ -1401,7 +1202,6 @@
             font-size: 125px;
             line-height: 102px; }
           .oo-player-container .oo-font-size-tab .oo-font-size-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-font-size-container .oo-font-size-label {
-            display: block;
             font-family: "Roboto Condensed", sans-serif;
             font-size: 16px;
             color: #b3b3b3;
@@ -1447,14 +1247,13 @@
           float: left;
           background-color: transparent;
           width: 25%;
+          height: 110px;
           min-width: 120px;
-          padding: 0;
-          border: none;
+          margin-bottom: 30px;
           cursor: pointer; }
           .oo-player-container .oo-text-enhancements-tab .oo-text-enhancements-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-text-enhancements-container .oo-text-enhancement-letter {
             color: #fff;
-            display: block;
-            height: 110px;
+            height: 100%;
             text-align: center;
             font-size: 100px;
             line-height: 120px;
@@ -1470,7 +1269,6 @@
           .oo-player-container .oo-text-enhancements-tab .oo-text-enhancements-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-text-enhancements-container .oo-text-enhancement-letter-Shadow {
             text-shadow: 2px 2px 2px #1a1a1a; }
           .oo-player-container .oo-text-enhancements-tab .oo-text-enhancements-inner-wrapper .oo-selection-container .oo-selection-inner-wrapper .oo-selection-items-container .oo-text-enhancements-container .oo-text-enhancement-label {
-            display: block;
             font-family: "Roboto Condensed", sans-serif;
             font-size: 16px;
             color: #b3b3b3;
@@ -2079,8 +1877,8 @@
 
 .oo-player-container .oo-vr-icon--move {
   position: absolute;
-  height: 14px;
-  width: 14px;
+  height: 12.5px;
+  width: 12.5px;
   cursor: pointer;
   outline: none; }
   .oo-player-container .oo-vr-icon--move--left {
@@ -2103,20 +1901,19 @@
     left: 33%;
     bottom: 20%;
     right: auto; }
-  .oo-player-container .oo-vr-icon--move--init {
-    top: 37%;
-    left: 38%; }
 
 .oo-player-container .oo-vr-icon-container {
   position: absolute;
   display: block;
-  top: calc(50% - 56px/2);
-  right: 15px;
+  top: 15px;
+  right: 0px;
+  padding-right: 15px;
   width: 56px;
   height: 56px;
   background-position: 0 0;
   background-size: 100% 100%;
   opacity: 1;
+  z-index: 1001;
   -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
@@ -2138,8 +1935,8 @@
 .oo-player-container .oo-vr-icon--substrate {
   position: absolute;
   display: block;
-  left: calc(0px * -0.5);
-  top: calc(0px * -0.5);
+  left: calc(6px * -0.5);
+  top: calc(6px * -0.5);
   opacity: 0.3;
   color: #000000;
   font-size: 56px;
@@ -2156,7 +1953,7 @@
   position: absolute;
   display: block;
   opacity: 1;
-  font-size: 56px;
+  font-size: 50px;
   line-height: normal;
   -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
@@ -2183,7 +1980,8 @@
   height: 80px;
   right: 0;
   background-color: rgba(22, 22, 22, 0.9);
-  transition: bottom 0.5s; }
+  transition: bottom 0.5s;
+  z-index: 1002; }
   .oo-player-container .oo-up-next-panel a.oo-up-next-content {
     position: absolute;
     top: 0;
@@ -2320,11 +2118,7 @@
     margin-top: 0; } }
 
 .oo-player-container .oo-slider[type=range]:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #448aff; }
-
-.oo-player-container .oo-slider[type=range]:hover:active {
-  box-shadow: none; }
+  outline: none; }
 
 .oo-player-container .oo-slider[type=range]::-moz-range-track {
   width: 10px;
@@ -2872,26 +2666,23 @@
   float: none;
   margin-right: 40px; }
 
-.oo-player-container .tabs-menu-item .tabs-menu-item-btn {
+.oo-player-container .tabs-menu-item a {
   border-bottom: 2px solid transparent;
   cursor: pointer;
   display: block;
   color: #fff;
   font-family: "Roboto Condensed Bold", sans-serif;
   font-size: 18px;
-  padding: 0 1px;
-  border: none;
-  background-color: transparent;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s; }
 
-.oo-player-container .tabs-menu-item.is-active .tabs-menu-item-btn {
+.oo-player-container .tabs-menu-item.is-active a {
   border-bottom: 2px solid #448aff; }
 
-.oo-player-container .tabs-menu-item:not(.is-active) .tabs-menu-item-btn:hover {
+.oo-player-container .tabs-menu-item:not(.is-active) a:hover {
   color: #448aff;
   opacity: 0.7; }
 
@@ -2902,11 +2693,8 @@
 .oo-player-container .tabs-navigation {
   width: 100%;
   margin: 0 auto;
-  padding: 2px 2px 0 2px;
   overflow-x: scroll;
-  padding-bottom: 1000%;
-  position: relative;
-  outline: none; }
+  padding-bottom: 1000%; }
   .oo-player-container .tabs-navigation .scrollarea-content {
     display: inline-block; }
   .oo-player-container .tabs-navigation .scrollbar-container.horizontal {
@@ -2929,20 +2717,10 @@
       top: 20px; }
 
 .oo-player-container .oo-left-tab-button {
-  display: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none; }
+  display: none; }
 
 .oo-player-container .oo-right-tab-button {
-  display: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none; }
+  display: none; }
 
 .oo-player-container .oo-scrubber-thumbnail-container {
   position: absolute;
@@ -3130,11 +2908,6 @@
   .oo-player-container .oo-xsmall .oo-content-screen-title span.oo-icon {
     font-size: 0.7em; }
 
-.oo-player-container .oo-xsmall .oo-content-screen .oo-close-button {
-  position: absolute;
-  top: 17.15px;
-  right: 17.15px; }
-
 .oo-player-container .oo-xsmall .oo-state-screen .oo-state-screen-info .oo-state-screen-title, .oo-player-container .oo-xsmall .oo-spinner-screen .oo-state-screen-info .oo-state-screen-title {
   font-size: 1em; }
 
@@ -3179,7 +2952,7 @@
     top: -3px; }
 
 .oo-player-container .oo-xsmall .oo-content-screen-closed-captions .captions-navbar {
-  margin-top: 8px; }
+  margin-top: 10px; }
 
 .oo-player-container .oo-xsmall .oo-content-screen-closed-captions .tabs-menu {
   width: 775px; }
@@ -3625,17 +3398,6 @@
 .oo-player-container .oo-xsmall .oo-watermark-bottom.oo-watermark-bottom-cb {
   bottom: 57px; }
 
-.oo-player-container .oo-xsmall .oo-state-screen-vr-notification {
-  font-size: 1em; }
-
-.oo-player-container .oo-xsmall .oo-state-screen-vr-bg {
-  width: 140px;
-  height: 140px; }
-
-.oo-player-container .oo-xsmall .oo-state-screen-vr-icon {
-  top: -2px;
-  font-size: 79px; }
-
 .oo-player-container .oo-small .oo-control-bar-items-wrapper .oo-control-bar-item {
   padding: 0 10.15px;
   font-size: 23px; }
@@ -3651,12 +3413,12 @@
     min-height: 190px !important; } }
 
 .oo-player-container .oo-small .captions-navbar {
-  margin-top: 8px; }
+  margin-top: 10px; }
 
 .oo-player-container .oo-small .tabs-menu {
   width: 685px; }
 
-.oo-player-container .oo-small .tabs-menu-item .tabs-menu-item-btn {
+.oo-player-container .oo-small .tabs-menu-item a {
   font-size: 15px; }
 
 .oo-player-container .oo-small .oo-left-tab-button-active {
@@ -3764,14 +3526,6 @@
 
 .oo-player-container .oo-small .oo-scrubber-carousel-container {
   bottom: 103px; }
-
-.oo-player-container .oo-small .oo-state-screen-vr-bg {
-  width: 180px;
-  height: 180px; }
-
-.oo-player-container .oo-small .oo-state-screen-vr-icon {
-  top: -3px;
-  font-size: 100px; }
 
 .oo-player-container .oo-large .oo-content-screen {
   padding: 35px; }
@@ -3882,14 +3636,14 @@
   width: 80.64px;
   height: 80.64px; }
   .oo-player-container .oo-large .oo-vr-icon-container .oo-vr-icon--substrate {
-    left: calc(0px * -0.5);
-    top: calc(0px * -0.5);
+    left: calc(8.64px * -0.5);
+    top: calc(8.64px * -0.5);
     font-size: 80.64px; }
   .oo-player-container .oo-large .oo-vr-icon-container .oo-vr-icon--icon-symbol {
-    font-size: 80.64px; }
+    font-size: 72px; }
   .oo-player-container .oo-large .oo-vr-icon-container .oo-vr-icon--move {
-    height: 20.16px;
-    width: 20.16px; }
+    height: 18px;
+    width: 18px; }
 
 @media (orientation: portrait) {
   .oo-player-container .oo-mobile-fullscreen.oo-quality-panel {

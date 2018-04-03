@@ -10,11 +10,6 @@
       font-size: 0.7em;
     }
   }
-  .oo-content-screen .oo-close-button {
-    position: absolute;
-    top: xs($panel-padding);
-    right: xs($panel-padding);
-  }
 
   // State Screens
   .oo-state-screen {
@@ -70,7 +65,7 @@
       }
     }
     .captions-navbar {
-      margin-top: 8px;
+      margin-top: 10px;
     }
     .tabs-menu {
       width: 775px;
@@ -617,20 +612,5 @@
 
   .oo-watermark-bottom.oo-watermark-bottom-cb {
     bottom: $control-bar-height-small;
-  }
-
-  .oo-state-screen-vr-notification {
-    font-size: 1em;
-  }
-
-  .oo-state-screen-vr {
-    &-bg {
-      width: 140px;
-      height: 140px;
-    }
-    &-icon {
-      top: -2px;
-      font-size: 79px;
-    }
   }
 }

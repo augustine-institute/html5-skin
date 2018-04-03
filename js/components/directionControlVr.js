@@ -10,11 +10,7 @@ var DirectionControlVr = React.createClass({
 
   handleEvent: function (ev) {
     var isRotated = ev.type === 'mousedown' || ev.type === 'touchstart';
-
-    //The call always happens, except for the mouse movement without pressing the mouse button
-    if(this.state.isTouched || ev.type !== 'mouseout'){
-      this.props.handleVrViewControlsClick(ev, isRotated, this.props.dir);
-    }
+    this.props.handleVrViewControlsClick(ev, isRotated, this.props.dir);
     
     this.setState({
       isTouched: isRotated

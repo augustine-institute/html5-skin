@@ -4,7 +4,8 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     ResizeMixin = require('../mixins/resizeMixin'),
-    ThumbnailsContainer = require('./thumbnailContainer'),
+    Thumbnail = require('./thumbnail'),
+    ThumbnailCarousel = require('./thumbnailCarousel'),
     Utils = require('./utils'),
     MACROS = require('../constants/macros'),
     CONSTANTS = require('../constants/constants');
@@ -295,31 +296,25 @@ var ScrubberBar = React.createClass({
       playedIndicatorStyle.backgroundColor = this.props.skinConfig.controlBar.adScrubberBar.playedColor;
     }
 
+    var thumbnailContainer = null;
+    var thumbnailCarousel = null;
     var hoverTime = 0;
     var hoverPosition = 0;
     var hoveredIndicatorStyle = null;
 
-    var thumbnailsContainer = null;
-
     if (this.props.controller.state.thumbnails && (this.state.scrubbingPlayheadX || this.lastScrubX || this.state.hoveringX)) {
-      var vrViewingDirection = { yaw: 0, roll: 0, pitch: 0 };
-      if (this.props.controller && this.props.controller.state && this.props.controller.state.vrViewingDirection) {
-        vrViewingDirection = this.props.controller.state.vrViewingDirection;
-      }
-      var fullscreen = false;
-      if (this.props.controller && this.props.controller.state && this.props.controller.state.fullscreen) {
-        fullscreen = this.props.controller.state.fullscreen;
-      }
-      var videoVr = false;
-      if (this.props.controller && this.props.controller.videoVr) {
-        videoVr = this.props.controller.videoVr;
-      }
-      var isCarousel = false;
       if (this.state.scrubbingPlayheadX) {
         hoverPosition = this.state.scrubbingPlayheadX;
         hoverTime = (this.state.scrubbingPlayheadX / this.state.scrubberBarWidth) * this.props.duration;
         playheadClassName += " oo-playhead-scrubbing";
-        isCarousel = true;
+        playedIndicatorClassName += " oo-played-indicator-scrubbing";
+
+        thumbnailCarousel =
+          <ThumbnailCarousel
+           thumbnails={this.props.controller.state.thumbnails}
+           duration={this.props.duration}
+           hoverTime={hoverTime > 0 ? hoverTime : 0}
+           scrubberBarWidth={this.state.scrubberBarWidth}/>
       } else if (this.lastScrubX) {//to show thumbnail when clicking on playhead
         hoverPosition = this.props.currentPlayhead * this.state.scrubberBarWidth / this.props.duration;
         hoverTime = this.props.currentPlayhead;
@@ -335,25 +330,38 @@ var ScrubberBar = React.createClass({
         scrubberBarClassName += " oo-scrubber-bar-hover";
         playheadClassName += " oo-playhead-hovering";
       }
-      thumbnailsContainer = (
-        <ThumbnailsContainer
-          isCarousel={isCarousel}
-          thumbnails={this.props.controller.state.thumbnails}
-          duration={this.props.duration}
-          hoverPosition={hoverPosition}
-          hoverTime={hoverTime > 0 ? hoverTime : 0}
-          scrubberBarWidth={this.state.scrubberBarWidth}
-          videoVr={videoVr}
-          fullscreen={fullscreen}
-          vrViewingDirection={vrViewingDirection}
-      />);
+      if (!thumbnailCarousel) {
+        var vrViewingDirection = { yaw: 0, roll: 0, pitch: 0 };
+        if (this.props.controller && this.props.controller.state && this.props.controller.state.vrViewingDirection) {
+          vrViewingDirection = this.props.controller.state.vrViewingDirection;
+        }
+        var fullscreen = false;
+        if (this.props.controller && this.props.controller.state && this.props.controller.state.fullscreen) {
+          fullscreen = this.props.controller.state.fullscreen;
+        }
+        var videoVr = false;
+        if (this.props.controller && this.props.controller.videoVr) {
+          videoVr = this.props.controller.videoVr;
+        }
+        thumbnailContainer = (
+          <Thumbnail
+           thumbnails={this.props.controller.state.thumbnails}
+           hoverPosition={hoverPosition}
+           duration={this.props.duration}
+           hoverTime={hoverTime > 0 ? hoverTime : 0}
+           vrViewingDirection={vrViewingDirection}
+           videoVr={videoVr}
+           fullscreen={fullscreen} />
+        )
+      }
     }
 
     var ariaValueText = this.getAriaValueText();
 
     return (
       <div className="oo-scrubber-bar-container" ref="scrubberBarContainer" onMouseOver={scrubberBarMouseOver} onMouseOut={scrubberBarMouseOut} onMouseMove={scrubberBarMouseMove}>
-        {thumbnailsContainer}
+        {thumbnailContainer}
+        {thumbnailCarousel}
         <div className="oo-scrubber-bar-padding" ref="scrubberBarPadding" onMouseDown={scrubberBarMouseDown} onTouchStart={scrubberBarMouseDown}>
           <div
             ref="scrubberBar"

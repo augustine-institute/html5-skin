@@ -32,7 +32,6 @@
     "browserify": "13.0.0",
     "bulk-require": "^1.0.0",
     "bulkify": "^1.4.2",
-    "cz-jira-smart-commit": "^3.0.0",
     "git-rev": "0.2.1",
     "graceful-fs": "*",
     "gulp": "3.9.1",
@@ -94,10 +93,5 @@
     ],
     "testDirectoryName": "tests",
     "collectCoverage": true
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-jira-smart-commit"
-    }
   }
 }

@@ -27,7 +27,6 @@ AccessibilityControls.prototype = {
   cleanUp : function() {
     document.removeEventListener("keydown", this.keyEventDown);
     document.removeEventListener("keyup", this.keyEventUp);
-    document.removeEventListener("deviceorientation", this.controller.handleVrMobileOrientation);
   },
 
   keyEventDown: function(e) {
@@ -37,9 +36,7 @@ AccessibilityControls.prototype = {
 
     var targetTagName = this.getTargetTagName(e);
     var charCode = e.which || e.keyCode;
-    if (this.controller.videoVr) {
-      this.moveVrToDirection(e, charCode, true, targetTagName); //start rotate 360
-    }
+    this.moveVrToDirection(e, charCode, true, targetTagName); //start rotate 360
 
     switch (charCode) {
       case CONSTANTS.KEYCODES.SPACE_KEY:
@@ -107,11 +104,9 @@ AccessibilityControls.prototype = {
     if (!(this.controller.state.accessibilityControlsEnabled || this.controller.state.isClickedOutside)) {
       return;
     }
-    if (this.controller.videoVr) {
-      var targetTagName = this.getTargetTagName(e);
-      var charCode = e.which || e.keyCode;
-      this.moveVrToDirection(e, charCode, false, targetTagName);  //stop rotate 360
-    }
+    var targetTagName = this.getTargetTagName(e);
+    var charCode = e.which || e.keyCode;
+    this.moveVrToDirection(e, charCode, false, targetTagName);  //stop rotate 360
   },
 
   /**
@@ -152,16 +147,7 @@ AccessibilityControls.prototype = {
     this.controller.moveVrToDirection(false, keyDirectionMap[charCode]); //stop rotation if isKeyDown === false or prevent prev rotation if press a button (isKeyDown === true)
 
     if (isKeyDown === true) {
-      var newBtn = true;
-      for (var j = this.prevKeyPressedArr.length - 1; j >= 0; j--) {
-        if (this.prevKeyPressedArr[j] === charCode) {
-          newBtn = false; // there is extra pressDown for pressed btn in chrome (windows) and safari if to change to fullscreen mode
-          break; // we do not need to add charCode to prevKeyPressedArr in this case
-        }
-      }
-      if (newBtn) {
-        this.prevKeyPressedArr.push(charCode);
-      }
+      this.prevKeyPressedArr.push(charCode);
     } else { // if button is up, remove it from this.prevKeyPressedArr
       var inPrevKeyPressedArrIndex = -1;
       //check if button code is already in list of pressed buttons (this.prevKeyPressedArr)
