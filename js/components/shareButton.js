@@ -4,6 +4,7 @@ var React = require('react'),
 
 var ShareButton = React.createClass({
   handleShareClick: function() {
+    this.props.controller.mb.publish(OO.EVENTS.PAUSE);
     this.props.controller.mb.publish('SHARECLICK');
   },
 

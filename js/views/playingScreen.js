@@ -3,7 +3,6 @@
 *********************************************************************/
 var React = require('react'),
   ReactDOM = require('react-dom'),
-  Utils = require('../components/utils'),
   ControlBar = require('../components/controlBar'),
   AdOverlay = require('../components/adOverlay'),
   ClassNames = require('classnames'),
@@ -222,9 +221,6 @@ var PlayingScreen = React.createClass({
         {...this.props}
         controlBarVisible={this.state.controlBarVisible}
       />
-
-      {vrNotification}
-      {vrIcon}
 
       <Watermark {...this.props} controlBarVisible={this.state.controlBarVisible}/>
 

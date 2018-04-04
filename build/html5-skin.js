@@ -4554,6 +4554,7 @@ var React = require('react'),
 
 var ShareButton = React.createClass({displayName: "ShareButton",
   handleShareClick: function() {
+    this.props.controller.mb.publish(OO.EVENTS.PAUSE);
     this.props.controller.mb.publish('SHARECLICK');
   },
 
@@ -7941,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "f3d2f01e6b29adc091536088ee160d38c3f93309"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "1402fec89542a10c3d0611de6fcafe0f850a9d72"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -11341,7 +11342,6 @@ module.exports = PauseScreen;
 *********************************************************************/
 var React = require('react'),
   ReactDOM = require('react-dom'),
-  Utils = require('../components/utils'),
   ControlBar = require('../components/controlBar'),
   AdOverlay = require('../components/adOverlay'),
   ClassNames = require('classnames'),
@@ -11561,9 +11561,6 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
         {controlBarVisible: this.state.controlBarVisible})
       ), 
 
-      vrNotification, 
-      vrIcon, 
-
       React.createElement(Watermark, React.__spread({},  this.props, {controlBarVisible: this.state.controlBarVisible})), 
 
       this.props.controller.state.buffering ? React.createElement(Spinner, {loadingImage: this.props.skinConfig.general.loadingImage.imageResource.url}) : null, 
@@ -11600,7 +11597,7 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
 });
 module.exports = PlayingScreen;
 
-},{"../components/adOverlay":8,"../components/controlBar":23,"../components/icon":30,"../components/shareButton":34,"../components/spinner":37,"../components/textTrackPanel":39,"../components/tooltip":42,"../components/unmuteIcon":43,"../components/upNextPanel":44,"../components/utils":45,"../components/viewControlsVr":47,"../components/watermark":49,"../constants/constants":50,"../mixins/resizeMixin":55,"classnames":67,"react":230,"react-dom":73}],64:[function(require,module,exports){
+},{"../components/adOverlay":8,"../components/controlBar":23,"../components/icon":30,"../components/shareButton":34,"../components/spinner":37,"../components/textTrackPanel":39,"../components/tooltip":42,"../components/unmuteIcon":43,"../components/upNextPanel":44,"../components/viewControlsVr":47,"../components/watermark":49,"../constants/constants":50,"../mixins/resizeMixin":55,"classnames":67,"react":230,"react-dom":73}],64:[function(require,module,exports){
 var React = require('react');
 var Utils = require('../components/utils');
 var CONSTANTS = require('../constants/constants');
