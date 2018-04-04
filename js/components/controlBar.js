@@ -448,9 +448,9 @@ var ControlBar = React.createClass({
       onChange={this.changeVolumeSlider}
       className={"oo-slider oo-slider-volume"}
       itemRef={"volumeSlider"}
-      minValue={"0"}
-      maxValue={"1"}
-      step={"0.1"} /></div>;
+      minValue={0}
+      maxValue={1}
+      step={0.1} /></div>;
 
     var volumeControls;
     if (this.props.skinConfig.controlBar.volumeControl.bars){

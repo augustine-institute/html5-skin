@@ -2614,9 +2614,9 @@ var ControlBar = React.createClass({displayName: "ControlBar",
       onChange: this.changeVolumeSlider, 
       className: "oo-slider oo-slider-volume", 
       itemRef: "volumeSlider", 
-      minValue: "0", 
-      maxValue: "1", 
-      step: "0.1"}));
+      minValue: 0, 
+      maxValue: 1, 
+      step: 0.1}));
 
     var volumeControls;
     if (this.props.skinConfig.controlBar.volumeControl.bars){
@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "1402fec89542a10c3d0611de6fcafe0f850a9d72"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "76ccee2bb7ca03e854a36fca37e23abc8727c93a"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -11272,10 +11272,8 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
     return (
       React.createElement("div", {className: "oo-state-screen oo-pause-screen"}, 
 
-        React.createElement(ShareButton, React.__spread({}, 
-          this.props, 
-          {controlBarVisible: this.state.controlBarVisible})
-        ), 
+        this.props.controller.state.playerParam.showShareButton && !this.props.skinConfig.general.isAudio ?
+          React.createElement(ShareButton, React.__spread({},  this.props, {controlBarVisible: this.state.controlBarVisible})) : null, 
 
         
           !this.props.controller.videoVr &&
@@ -11556,10 +11554,8 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
         onFocus: this.handlePlayerFocus}
       ), 
 
-      React.createElement(ShareButton, React.__spread({}, 
-        this.props, 
-        {controlBarVisible: this.state.controlBarVisible})
-      ), 
+      this.props.controller.state.playerParam.showShareButton && !this.props.skinConfig.general.isAudio ?
+        React.createElement(ShareButton, React.__spread({},  this.props, {controlBarVisible: this.state.controlBarVisible})) : null, 
 
       React.createElement(Watermark, React.__spread({},  this.props, {controlBarVisible: this.state.controlBarVisible})), 
 
