@@ -244,7 +244,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
       this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
 
-      
     },
 
     externalPluginSubscription: function() {
