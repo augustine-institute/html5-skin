@@ -239,7 +239,11 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
           this.mb.subscribe(OO.EVENTS.SHOW_AD_MARQUEE, "customerUi", _.bind(this.onShowAdMarquee, this));
         }
       }
-      this.state.isSubscribed = true;
+
+      // custom FORMED events
+      this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
+      this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
+
     },
 
     externalPluginSubscription: function() {
@@ -546,6 +550,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
+      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
+      // custom for FORMED TOPIC SHARING
+      if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
+        this.mb.publish(OO.EVENTS.PAUSE);
+      }
+
       if (videoId == OO.VIDEO.MAIN) {
         this.state.mainVideoPlayhead = currentPlayhead;
         this.state.mainVideoDuration = duration;
@@ -2029,6 +2039,14 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       if (this.state.mainVideoElementContainer && this.state.mainVideoElementContainer.classList) {
         this.state.mainVideoElementContainer.classList.remove('oo-blur');
       }
+    },
+
+    onMinUpdated: function (event, min) {
+      this.state.min = min;
+    },
+
+    onMaxUpdated: function (event, max) {
+      this.state.max = max;
     }
 
   };

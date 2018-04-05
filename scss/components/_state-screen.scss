@@ -4,6 +4,26 @@
   cursor: default;
   @include vendor-prefixes(user-select, none);
 
+  .oo-share-button {
+    transition: top 0.3s ease-in-out 0s;
+    position: absolute;
+    font-size: 16px;
+    right: 80px;
+    top: 20px;
+    z-index: 12500;
+    background: transparent;
+    text-shadow: none;
+    color: white;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    font-weight: 600;
+
+    &.oo-share-button-hidden {
+      top: -20px;
+    }
+  }
+
   .oo-fading-underlay {
     @extend .oo-expand;
     background-color: #1a1a1a;

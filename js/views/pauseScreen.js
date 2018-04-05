@@ -14,7 +14,8 @@ var React = require('react'),
     Utils = require('../components/utils'),
     CONSTANTS = require('./../constants/constants'),
     AnimateMixin = require('../mixins/animateMixin'),
-    ViewControlsVr = require('../components/viewControlsVr');
+    ViewControlsVr = require('../components/viewControlsVr'),
+    ShareButton = require('../components/shareButton');
 
 var PauseScreen = React.createClass({
   mixins: [ResizeMixin, AnimateMixin],
@@ -162,6 +163,9 @@ var PauseScreen = React.createClass({
 
     return (
       <div className="oo-state-screen oo-pause-screen">
+
+        {this.props.controller.state.playerParam.showShareButton ?
+          <ShareButton {...this.props} controlBarVisible={this.state.controlBarVisible}/> : null}
 
         {
           !this.props.controller.videoVr &&

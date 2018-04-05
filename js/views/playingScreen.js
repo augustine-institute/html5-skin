@@ -2,20 +2,21 @@
   PLAYING SCREEN
 *********************************************************************/
 var React = require('react'),
-    ReactDOM = require('react-dom'),
-    ControlBar = require('../components/controlBar'),
-    AdOverlay = require('../components/adOverlay'),
-    ClassNames = require('classnames'),
-    UpNextPanel = require('../components/upNextPanel'),
-    Spinner = require('../components/spinner'),
-    TextTrack = require('../components/textTrackPanel'),
-    Watermark = require('../components/watermark'),
-    ResizeMixin = require('../mixins/resizeMixin'),
-    CONSTANTS = require('../constants/constants'),
-    ViewControlsVr = require('../components/viewControlsVr'),
-    Icon = require('../components/icon'),
-    Tooltip = require('../components/tooltip'),
-    UnmuteIcon = require('../components/unmuteIcon');
+  ReactDOM = require('react-dom'),
+  ControlBar = require('../components/controlBar'),
+  AdOverlay = require('../components/adOverlay'),
+  ClassNames = require('classnames'),
+  UpNextPanel = require('../components/upNextPanel'),
+  Spinner = require('../components/spinner'),
+  TextTrack = require('../components/textTrackPanel'),
+  Watermark = require('../components/watermark'),
+  ResizeMixin = require('../mixins/resizeMixin'),
+  CONSTANTS = require('../constants/constants'),
+  ViewControlsVr = require('../components/viewControlsVr'),
+  Icon = require('../components/icon'),
+  Tooltip = require('../components/tooltip'),
+  UnmuteIcon = require('../components/unmuteIcon'),
+  ShareButton = require('../components/shareButton');
 
 var PlayingScreen = React.createClass({
   mixins: [ResizeMixin],
@@ -215,6 +216,9 @@ var PlayingScreen = React.createClass({
         onClick={this.handlePlayerClicked}
         onFocus={this.handlePlayerFocus}
       />
+
+      {this.props.controller.state.playerParam.showShareButton ?
+        <ShareButton {...this.props} controlBarVisible={this.state.controlBarVisible}/> : null}
 
       <Watermark {...this.props} controlBarVisible={this.state.controlBarVisible}/>
 
