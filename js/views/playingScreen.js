@@ -217,7 +217,7 @@ var PlayingScreen = React.createClass({
         onFocus={this.handlePlayerFocus}
       />
 
-      {this.props.controller.state.playerParam.showShareButton && !this.props.skinConfig.general.isAudio ?
+      {this.props.controller.state.playerParam.showShareButton ?
         <ShareButton {...this.props} controlBarVisible={this.state.controlBarVisible}/> : null}
 
       <Watermark {...this.props} controlBarVisible={this.state.controlBarVisible}/>

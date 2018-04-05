@@ -164,7 +164,7 @@ var PauseScreen = React.createClass({
     return (
       <div className="oo-state-screen oo-pause-screen">
 
-        {this.props.controller.state.playerParam.showShareButton && !this.props.skinConfig.general.isAudio ?
+        {this.props.controller.state.playerParam.showShareButton ?
           <ShareButton {...this.props} controlBarVisible={this.state.controlBarVisible}/> : null}
 
         {
