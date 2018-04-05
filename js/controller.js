@@ -244,7 +244,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
       this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
 
-      this.state.isSubscribed = true;
     },
 
     externalPluginSubscription: function() {
@@ -2044,20 +2043,10 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onMinUpdated: function (event, min) {
       this.state.min = min;
-      this.mb.publish(OO.EVENTS.PAUSE)
-      // console.log("MIN RECEIVED: ", min);
-      if (this.state.mainVideoPlayhead < min){
-        // update playhead to min
-      }
     },
 
     onMaxUpdated: function (event, max) {
       this.state.max = max;
-      this.mb.publish(OO.EVENTS.PAUSE)
-      // console.log("MAX RECEIVED: ", max);
-      if (this.state.mainVideoPlayhead > max) {
-        // update playhead to min to start the user over again
-      }
     }
 
   };

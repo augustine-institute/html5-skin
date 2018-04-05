@@ -7943,7 +7943,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e3ab37b29b23f03fe66003739ba0894ab3dedb88"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "bb7a497f199e334e89a46e4eb3b318a2ffcdcd44"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8165,7 +8165,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
       this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
 
-      this.state.isSubscribed = true;
     },
 
     externalPluginSubscription: function() {
@@ -9965,20 +9964,10 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onMinUpdated: function (event, min) {
       this.state.min = min;
-      this.mb.publish(OO.EVENTS.PAUSE)
-      // console.log("MIN RECEIVED: ", min);
-      if (this.state.mainVideoPlayhead < min){
-        // update playhead to min
-      }
     },
 
     onMaxUpdated: function (event, max) {
       this.state.max = max;
-      this.mb.publish(OO.EVENTS.PAUSE)
-      // console.log("MAX RECEIVED: ", max);
-      if (this.state.mainVideoPlayhead > max) {
-        // update playhead to min to start the user over again
-      }
     }
 
   };
