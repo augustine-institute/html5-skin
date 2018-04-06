@@ -11,8 +11,7 @@ var ShareButton = React.createClass({
   render: function() {
     var shareButtonClass = ClassNames({
       "oo-share-button": true,
-      "oo-share-button-hidden": !this.props.controlBarVisible,
-      "visible-xs": this.props.skinConfig.general.isAudio 
+      "oo-share-button-hidden": !this.props.controlBarVisible
     });
 
     return (
