@@ -4561,8 +4561,7 @@ var ShareButton = React.createClass({displayName: "ShareButton",
   render: function() {
     var shareButtonClass = ClassNames({
       "oo-share-button": true,
-      "oo-share-button-hidden": !this.props.controlBarVisible,
-      "visible-xs": this.props.skinConfig.general.isAudio 
+      "oo-share-button-hidden": !this.props.controlBarVisible
     });
 
     return (
@@ -7943,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "bb7a497f199e334e89a46e4eb3b318a2ffcdcd44"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e7d72b920b9c21d9606627f11c82946f2204ca80"};
   }
 
   var Html5Skin = function (mb, id) {
