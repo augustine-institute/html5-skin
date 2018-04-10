@@ -98,12 +98,12 @@ var PauseScreen = React.createClass({
       color: this.props.skinConfig.pauseScreen.PauseIconStyle.color,
       opacity: this.props.skinConfig.pauseScreen.PauseIconStyle.opacity
     };
-
+  
     //CSS class manipulation from config/skin.json
     var fadeUnderlayClass = ClassNames({
-      'oo-fading-underlay': !this.props.pauseAnimationDisabled,
-      'oo-fading-underlay-active': this.props.pauseAnimationDisabled,
-      'oo-animate-fade': this.state.animate && !this.props.pauseAnimationDisabled
+      'oo-fading-underlay': !this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare,
+      'oo-fading-underlay-active': this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare,
+      'oo-animate-fade': this.state.animate && !this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare
     });
     var infoPanelClass = ClassNames({
       'oo-state-screen-info': true,
@@ -130,7 +130,7 @@ var PauseScreen = React.createClass({
       'oo-action-icon-bottom': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("bottom") > -1,
       'oo-action-icon-left': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("left") > -1,
       'oo-action-icon-right': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("right") > -1,
-      'oo-hidden': !this.props.skinConfig.pauseScreen.showPauseIcon || this.props.pauseAnimationDisabled
+      'oo-hidden': !this.props.skinConfig.pauseScreen.showPauseIcon || this.props.pauseAnimationDisabled || this.props.controller.state.playerParam.isTopicShare
     });
 
     var titleMetadata = (<div className={titleClass} style={titleStyle}>{this.props.contentTree.title}</div>);

@@ -550,7 +550,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -825,7 +824,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       }
       params = params || {};
 
-      if(this.skin.props.skinConfig.general.isAudio){
+      if(this.skin.props.skinConfig.general.isAudio || this.state.playerParam.isTopicShare){
         this.state.screenToShow = CONSTANTS.SCREEN.PAUSE_SCREEN;
       } else {
         // If the core tells us that it will autoplay then we just display the loading
@@ -856,6 +855,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffered: function(event) {
+      // FWD-2669 used in conjunction with autoplay and initialTime to automatically show
+      // frame at which the user left off; only in the topic share mode
+      if (this.state.playerParam.isTopicShare) {
+        this.mb.publish(OO.EVENTS.PAUSE)
+
+      }
       this.setBufferingState(false);
     },
 
@@ -869,6 +874,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       var bufferingSpinnerDelay = Utils.getPropertyValue(this.skin.props.skinConfig, 'general.bufferingSpinnerDelay');
       bufferingSpinnerDelay = Utils.constrainToRange(bufferingSpinnerDelay, 0, CONSTANTS.UI.MAX_BUFFERING_SPINNER_DELAY);
 
+      if(this.state.playerParam.isTopicShare) {
+        bufferingSpinnerDelay = 0;
+      }
       this.state.bufferingTimer = setTimeout(function() {
         this.setBufferingState(true);
       }.bind(this), bufferingSpinnerDelay);

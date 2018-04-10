@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e7d72b920b9c21d9606627f11c82946f2204ca80"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "741803fc41b45ae90afa7912389d002a0265f76d"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8470,7 +8470,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -8745,7 +8744,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       }
       params = params || {};
 
-      if(this.skin.props.skinConfig.general.isAudio){
+      if(this.skin.props.skinConfig.general.isAudio || this.state.playerParam.isTopicShare){
         this.state.screenToShow = CONSTANTS.SCREEN.PAUSE_SCREEN;
       } else {
         // If the core tells us that it will autoplay then we just display the loading
@@ -8776,6 +8775,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffered: function(event) {
+      // FWD-2669 used in conjunction with autoplay and initialTime to automatically show
+      // frame at which the user left off; only in the topic share mode
+      if (this.state.playerParam.isTopicShare) {
+        this.mb.publish(OO.EVENTS.PAUSE)
+
+      }
       this.setBufferingState(false);
     },
 
@@ -8789,6 +8794,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       var bufferingSpinnerDelay = Utils.getPropertyValue(this.skin.props.skinConfig, 'general.bufferingSpinnerDelay');
       bufferingSpinnerDelay = Utils.constrainToRange(bufferingSpinnerDelay, 0, CONSTANTS.UI.MAX_BUFFERING_SPINNER_DELAY);
 
+      if(this.state.playerParam.isTopicShare) {
+        bufferingSpinnerDelay = 0;
+      }
       this.state.bufferingTimer = setTimeout(function() {
         this.setBufferingState(true);
       }.bind(this), bufferingSpinnerDelay);
@@ -11195,12 +11203,12 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
       color: this.props.skinConfig.pauseScreen.PauseIconStyle.color,
       opacity: this.props.skinConfig.pauseScreen.PauseIconStyle.opacity
     };
-
+  
     //CSS class manipulation from config/skin.json
     var fadeUnderlayClass = ClassNames({
-      'oo-fading-underlay': !this.props.pauseAnimationDisabled,
-      'oo-fading-underlay-active': this.props.pauseAnimationDisabled,
-      'oo-animate-fade': this.state.animate && !this.props.pauseAnimationDisabled
+      'oo-fading-underlay': !this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare,
+      'oo-fading-underlay-active': this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare,
+      'oo-animate-fade': this.state.animate && !this.props.pauseAnimationDisabled && !this.props.controller.state.playerParam.isTopicShare
     });
     var infoPanelClass = ClassNames({
       'oo-state-screen-info': true,
@@ -11227,7 +11235,7 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
       'oo-action-icon-bottom': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("bottom") > -1,
       'oo-action-icon-left': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("left") > -1,
       'oo-action-icon-right': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("right") > -1,
-      'oo-hidden': !this.props.skinConfig.pauseScreen.showPauseIcon || this.props.pauseAnimationDisabled
+      'oo-hidden': !this.props.skinConfig.pauseScreen.showPauseIcon || this.props.pauseAnimationDisabled || this.props.controller.state.playerParam.isTopicShare
     });
 
     var titleMetadata = (React.createElement("div", {className: titleClass, style: titleStyle}, this.props.contentTree.title));
