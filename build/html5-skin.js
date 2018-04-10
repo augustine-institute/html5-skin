@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "4c564a58ab2969cc86461aa530715215e4f30751"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "741803fc41b45ae90afa7912389d002a0265f76d"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8195,7 +8195,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      event listeners from core player -> regulate skin STATE
      ---------------------------------------------------------------------*/
     onPlayerCreated: function (event, elementId, params, settings) {
-      // console.log("onPlayerCreated() params: ", params)
       //subscribe to plugin events
       this.externalPluginSubscription();
 
@@ -8252,7 +8251,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onVcVideoElementCreated: function(event, params) {
-      // console.log("onVcVideoElementCreated()")
       var videoElement = params.videoElement;
       videoElement = this.findMainVideoElement(videoElement);
 
@@ -8472,7 +8470,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -8550,19 +8547,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onInitialPlay: function() {
-      // console.log("onInitialPlay()")
-      if (this.state.playerParam.isTopicShare) {
-        // console.log("onInitialPlay() Pausing Immediately")
-        this.mb.publish(OO.EVENTS.PAUSE)
-
-      }
       this.state.isInitialPlay = true;
       this.state.initialPlayHasOccurred = true;
       this.startHideControlBarTimer();
     },
 
     onVcPlay: function(event, source) {
-      // console.log("onVcPlay()")
       this.state.currentVideoId = source;
     },
 
@@ -8749,7 +8739,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlaybackReady: function(event, timeSincePlayerCreated, params) {
-      // console.log("onPlaybackReady()");
       if(this.state.failoverInProgress) {
         return;
       }
@@ -8774,7 +8763,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffering: function(event) {
-      // console.log("onBuffering()")
       if (this.state.isInitialPlay === false && this.state.screenToShow === CONSTANTS.SCREEN.START_SCREEN) {
         this.setBufferingState(false);
       } else {
@@ -8787,9 +8775,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffered: function(event) {
-      // console.log("onBuffered()")
+      // FWD-2669 used in conjunction with autoplay and initialTime to automatically show
+      // frame at which the user left off; only in the topic share mode
       if (this.state.playerParam.isTopicShare) {
-        // console.log("onBuffered() Pausing Immediately")
         this.mb.publish(OO.EVENTS.PAUSE)
 
       }
@@ -11543,7 +11531,7 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
       ) : null;
 
     var showUnmute = this.props.controller.state.volumeState.mutingForAutoplay && this.props.controller.state.volumeState.muted;
-    
+
     return (
       React.createElement("div", {
         className: "oo-state-screen oo-playing-screen", 
