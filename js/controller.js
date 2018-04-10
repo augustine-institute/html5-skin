@@ -275,6 +275,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      event listeners from core player -> regulate skin STATE
      ---------------------------------------------------------------------*/
     onPlayerCreated: function (event, elementId, params, settings) {
+      // console.log("onPlayerCreated() params: ", params)
       //subscribe to plugin events
       this.externalPluginSubscription();
 
@@ -331,6 +332,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onVcVideoElementCreated: function(event, params) {
+      // console.log("onVcVideoElementCreated()")
       var videoElement = params.videoElement;
       videoElement = this.findMainVideoElement(videoElement);
 
@@ -550,7 +552,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
-      // console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
+      console.log("PLAYHEAD TIME CHANGED: ", currentPlayhead)
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
@@ -628,12 +630,19 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onInitialPlay: function() {
+      // console.log("onInitialPlay()")
+      if (this.state.playerParam.isTopicShare) {
+        // console.log("onInitialPlay() Pausing Immediately")
+        this.mb.publish(OO.EVENTS.PAUSE)
+
+      }
       this.state.isInitialPlay = true;
       this.state.initialPlayHasOccurred = true;
       this.startHideControlBarTimer();
     },
 
     onVcPlay: function(event, source) {
+      // console.log("onVcPlay()")
       this.state.currentVideoId = source;
     },
 
@@ -820,12 +829,13 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPlaybackReady: function(event, timeSincePlayerCreated, params) {
+      // console.log("onPlaybackReady()");
       if(this.state.failoverInProgress) {
         return;
       }
       params = params || {};
 
-      if(this.skin.props.skinConfig.general.isAudio){
+      if(this.skin.props.skinConfig.general.isAudio || this.state.playerParam.isTopicShare){
         this.state.screenToShow = CONSTANTS.SCREEN.PAUSE_SCREEN;
       } else {
         // If the core tells us that it will autoplay then we just display the loading
@@ -844,6 +854,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffering: function(event) {
+      // console.log("onBuffering()")
       if (this.state.isInitialPlay === false && this.state.screenToShow === CONSTANTS.SCREEN.START_SCREEN) {
         this.setBufferingState(false);
       } else {
@@ -856,6 +867,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffered: function(event) {
+      // console.log("onBuffered()")
+      if (this.state.playerParam.isTopicShare) {
+        // console.log("onBuffered() Pausing Immediately")
+        this.mb.publish(OO.EVENTS.PAUSE)
+
+      }
       this.setBufferingState(false);
     },
 
@@ -869,6 +886,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       var bufferingSpinnerDelay = Utils.getPropertyValue(this.skin.props.skinConfig, 'general.bufferingSpinnerDelay');
       bufferingSpinnerDelay = Utils.constrainToRange(bufferingSpinnerDelay, 0, CONSTANTS.UI.MAX_BUFFERING_SPINNER_DELAY);
 
+      if(this.state.playerParam.isTopicShare) {
+        bufferingSpinnerDelay = 0;
+      }
       this.state.bufferingTimer = setTimeout(function() {
         this.setBufferingState(true);
       }.bind(this), bufferingSpinnerDelay);
