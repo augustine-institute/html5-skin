@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "d8a9fbd2504f06275a19e4ec490f8229184bc588"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "ef481ea7b173893a298fb9a0087d9c617b256b17"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8476,7 +8476,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
-        console.log("Pausing because playhead is outside limits")
         this.mb.publish(OO.EVENTS.PAUSE);
       }
 
@@ -9989,7 +9988,6 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onReplayTopic: function (event, startPlayhead) {
-      // this.state.mainVideoPlayhead = startPlayhead;
       this.mb.publish(OO.EVENTS.SEEK, this.state.min);
       this.mb.publish(OO.EVENTS.PLAY);
     }
