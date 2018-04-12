@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "741803fc41b45ae90afa7912389d002a0265f76d"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "d8a9fbd2504f06275a19e4ec490f8229184bc588"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8163,6 +8163,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       // custom FORMED events
       this.mb.subscribe('MINUPDATED', 'customerUi', _.bind(this.onMinUpdated, this))
       this.mb.subscribe('MAXUPDATED', 'customerUi', _.bind(this.onMaxUpdated, this))
+      this.mb.subscribe('REPLAYTOPIC', 'customerUi', _.bind(this.onReplayTopic, this))
 
     },
 
@@ -8207,6 +8208,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.state.isMobile = Utils.isMobile();
       this.state.browserSupportsTouch = Utils.browserSupportsTouch();
 
+      if (params.initialMin) this.onMinUpdated(null, params.initialMin);
+      if (params.initialMax) this.onMaxUpdated(null, params.initialMax);
+      
       //initial DOM manipulation
       this.state.mainVideoContainer.addClass('oo-player-container');
       this.state.mainVideoInnerWrapper.addClass('oo-player');
@@ -8214,7 +8218,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       // Setting the tabindex will let some screen readers recognize this element as a group
       // identified with the ARIA label above. We set it to -1 in order to prevent actual keyboard focus
       this.state.mainVideoInnerWrapper.attr('tabindex', '-1');
-
+      
       if (!this.state.mainVideoInnerWrapper.children('.oo-player-skin').length) {
         this.state.mainVideoInnerWrapper.append("<div class='oo-player-skin'></div>")
       }
@@ -8472,6 +8476,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
+        console.log("Pausing because playhead is outside limits")
         this.mb.publish(OO.EVENTS.PAUSE);
       }
 
@@ -8550,6 +8555,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.state.isInitialPlay = true;
       this.state.initialPlayHasOccurred = true;
       this.startHideControlBarTimer();
+      if (this.state.playerParam.isTopicShare) {
+        this.state.topicShareInitialPause = true;
+      }
     },
 
     onVcPlay: function(event, source) {
@@ -8587,7 +8595,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
     },
 
     onPause: function(event, source, pauseReason) {
-      if(this.state.failoverInProgress) {
+      if(this.state.failoverInProgress || this.state.topicShareInitialPause) {
         return;
       }
 
@@ -8603,6 +8611,11 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onPaused: function(event, videoId) {
       if(this.state.failoverInProgress) {
+        return;
+      }
+
+      if(this.state.topicShareInitialPause) {
+        this.state.topicShareInitialPause = false;
         return;
       }
 
@@ -8775,11 +8788,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      * @private
      */
     onBuffered: function(event) {
-      // FWD-2669 used in conjunction with autoplay and initialTime to automatically show
-      // frame at which the user left off; only in the topic share mode
-      if (this.state.playerParam.isTopicShare) {
-        this.mb.publish(OO.EVENTS.PAUSE)
-
+      if (this.state.topicShareInitialPause){
+        this.mb.publish(OO.EVENTS.SEEK, this.state.max);
+        this.mb.publish(OO.EVENTS.PAUSE);
       }
       this.setBufferingState(false);
     },
@@ -9975,6 +9986,12 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onMaxUpdated: function (event, max) {
       this.state.max = max;
+    },
+
+    onReplayTopic: function (event, startPlayhead) {
+      // this.state.mainVideoPlayhead = startPlayhead;
+      this.mb.publish(OO.EVENTS.SEEK, this.state.min);
+      this.mb.publish(OO.EVENTS.PLAY);
     }
 
   };
