@@ -555,7 +555,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
       // custom for FORMED TOPIC SHARING
-      if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
+      if((this.state.min && currentPlayhead < this.state.min - 1) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
       }
 
@@ -868,6 +868,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      */
     onBuffered: function(event) {
       if (this.state.topicShareInitialPause){
+        console.log("onBuffered() Pause")
         this.mb.publish(OO.EVENTS.SEEK, this.state.max);
         this.mb.publish(OO.EVENTS.PAUSE);
       }

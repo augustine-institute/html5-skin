@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "ef481ea7b173893a298fb9a0087d9c617b256b17"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "02feba6885888914073a5e654c02aa43f2217eea"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8475,7 +8475,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
     onPlayheadTimeChanged: function(event, currentPlayhead, duration, buffered, startEnd, videoId) {
       // custom for FORMED TOPIC SHARING
-      if((this.state.min && currentPlayhead < this.state.min) || (this.state.max && currentPlayhead > this.state.max)) {
+      if((this.state.min && currentPlayhead < this.state.min - 1) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
       }
 
@@ -8788,6 +8788,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      */
     onBuffered: function(event) {
       if (this.state.topicShareInitialPause){
+        console.log("onBuffered() Pause")
         this.mb.publish(OO.EVENTS.SEEK, this.state.max);
         this.mb.publish(OO.EVENTS.PAUSE);
       }
