@@ -4571,7 +4571,7 @@ var ShareButton = React.createClass({displayName: "ShareButton",
         ariaLabel: "ShareButton", 
         onClick: this.handleShareClick}, 
 
-        React.createElement("i", {className: "fa fa-share", "aria-hidden": "true"}), " Share"
+        React.createElement("i", {className: "fa fa-share", "aria-hidden": "true"}), " Share Topic"
 
       )
     );
@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "d75aad7bc8c7ff8c74bd3c7bc3881ec815a61682"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "caeb56ede224e173a62a129c5b561908991d5636"};
   }
 
   var Html5Skin = function (mb, id) {

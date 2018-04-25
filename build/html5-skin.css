@@ -380,7 +380,7 @@
   .oo-player-container .oo-state-screen .oo-share-button, .oo-player-container .oo-spinner-screen .oo-share-button {
     transition: top 0.3s ease-in-out 0s;
     position: absolute;
-    font-size: 16px;
+    font-size: 18px;
     right: 80px;
     top: 20px;
     z-index: 12500;
@@ -392,7 +392,11 @@
     padding: 0;
     font-weight: 600; }
     .oo-player-container .oo-state-screen .oo-share-button.oo-share-button-hidden, .oo-player-container .oo-spinner-screen .oo-share-button.oo-share-button-hidden {
-      top: -20px; }
+      top: -25px; }
+    .oo-player-container .oo-state-screen .oo-share-button .fa-share, .oo-player-container .oo-spinner-screen .oo-share-button .fa-share {
+      position: relative;
+      top: 3px;
+      left: -5px; }
   .oo-player-container .oo-state-screen .oo-fading-underlay, .oo-player-container .oo-spinner-screen .oo-fading-underlay {
     background-color: #1a1a1a;
     opacity: 0; }
