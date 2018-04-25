@@ -21,7 +21,7 @@ var ShareButton = React.createClass({
         ariaLabel="ShareButton"
         onClick={this.handleShareClick}>
 
-        <i className='fa fa-share' aria-hidden="true"></i>&nbsp;Share
+        <i className='fa fa-share' aria-hidden="true"></i>&nbsp;Share&nbsp;Topic
 
       </AccessibleButton>
     );
