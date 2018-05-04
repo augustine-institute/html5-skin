@@ -868,8 +868,10 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      */
     onBuffered: function(event) {
       if (this.state.topicShareInitialPause){
-        this.mb.publish(OO.EVENTS.SEEK, this.state.max);
-        this.mb.publish(OO.EVENTS.PAUSE);
+        this.mb.publish(OO.EVENTS.SEEK, this.state.min);
+        this.state.topicShareInitialPause = false;
+        // this.mb.publish(OO.EVENTS.SEEK, this.state.max);
+        // this.mb.publish(OO.EVENTS.PAUSE);
       }
       this.setBufferingState(false);
     },
