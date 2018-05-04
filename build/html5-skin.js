@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "d7346f36605815b082eca2d19473ab062f25f455"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "75ef57024f58035ffe9df368572bf3e5d5d358a9"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8788,8 +8788,10 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
      */
     onBuffered: function(event) {
       if (this.state.topicShareInitialPause){
-        this.mb.publish(OO.EVENTS.SEEK, this.state.max);
-        this.mb.publish(OO.EVENTS.PAUSE);
+        this.mb.publish(OO.EVENTS.SEEK, this.state.min);
+        this.state.topicShareInitialPause = false;
+        // this.mb.publish(OO.EVENTS.SEEK, this.state.max);
+        // this.mb.publish(OO.EVENTS.PAUSE);
       }
       this.setBufferingState(false);
     },
