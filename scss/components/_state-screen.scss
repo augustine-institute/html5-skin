@@ -7,7 +7,7 @@
   .oo-share-button {
     transition: top 0.3s ease-in-out 0s;
     position: absolute;
-    font-size: 16px;
+    font-size: 18px;
     right: 80px;
     top: 20px;
     z-index: 12500;
@@ -20,7 +20,13 @@
     font-weight: 600;
 
     &.oo-share-button-hidden {
-      top: -20px;
+      top: -25px;
+    }
+
+    .fa-share {
+      position: relative;
+      top: 3px;
+      left: -5px;
     }
   }
 
