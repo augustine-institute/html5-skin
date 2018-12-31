@@ -7942,7 +7942,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "0e37ac63895b9ac1d941a9dd1b48d46f73760df0"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e8fbd50323baee9d04dfa3a16698fcc58dc4d222"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -31931,18 +31931,18 @@ module.exports = require('./lib/React');
 },{"./lib/React":98}],231:[function(require,module,exports){
 /*!
 * screenfull
-* v3.0.0 - 2015-11-24
+* v4.0.0 - 2018-12-15
 * (c) Sindre Sorhus; MIT License
 */
 (function () {
 	'use strict';
 
+	var document = typeof window !== 'undefined' && typeof window.document !== 'undefined' ? window.document : {};
 	var isCommonjs = typeof module !== 'undefined' && module.exports;
 	var keyboardAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
 
 	var fn = (function () {
 		var val;
-		var valLength;
 
 		var fnMap = [
 			[
@@ -31953,7 +31953,7 @@ module.exports = require('./lib/React');
 				'fullscreenchange',
 				'fullscreenerror'
 			],
-			// new WebKit
+			// New WebKit
 			[
 				'webkitRequestFullscreen',
 				'webkitExitFullscreen',
@@ -31963,7 +31963,7 @@ module.exports = require('./lib/React');
 				'webkitfullscreenerror'
 
 			],
-			// old WebKit (Safari 5.1)
+			// Old WebKit (Safari 5.1)
 			[
 				'webkitRequestFullScreen',
 				'webkitCancelFullScreen',
@@ -31998,7 +31998,7 @@ module.exports = require('./lib/React');
 		for (; i < l; i++) {
 			val = fnMap[i];
 			if (val && val[1] in document) {
-				for (i = 0, valLength = val.length; i < valLength; i++) {
+				for (i = 0; i < val.length; i++) {
 					ret[fnMap[0][i]] = val[i];
 				}
 				return ret;
@@ -32008,30 +32008,67 @@ module.exports = require('./lib/React');
 		return false;
 	})();
 
+	var eventNameMap = {
+		change: fn.fullscreenchange,
+		error: fn.fullscreenerror
+	};
+
 	var screenfull = {
 		request: function (elem) {
-			var request = fn.requestFullscreen;
+			return new Promise(function (resolve) {
+				var request = fn.requestFullscreen;
 
-			elem = elem || document.documentElement;
+				var onFullScreenEntered = function () {
+					this.off('change', onFullScreenEntered);
+					resolve();
+				}.bind(this);
 
-			// Work around Safari 5.1 bug: reports support for
-			// keyboard in fullscreen even though it doesn't.
-			// Browser sniffing, since the alternative with
-			// setTimeout is even worse.
-			if (/5\.1[\.\d]* Safari/.test(navigator.userAgent)) {
-				elem[request]();
-			} else {
-				elem[request](keyboardAllowed && Element.ALLOW_KEYBOARD_INPUT);
-			}
+				elem = elem || document.documentElement;
+
+				// Work around Safari 5.1 bug: reports support for
+				// keyboard in fullscreen even though it doesn't.
+				// Browser sniffing, since the alternative with
+				// setTimeout is even worse.
+				if (/ Version\/5\.1(?:\.\d+)? Safari\//.test(navigator.userAgent)) {
+					elem[request]();
+				} else {
+					elem[request](keyboardAllowed ? Element.ALLOW_KEYBOARD_INPUT : {});
+				}
+
+				this.on('change', onFullScreenEntered);
+			}.bind(this));
 		},
 		exit: function () {
-			document[fn.exitFullscreen]();
+			return new Promise(function (resolve) {
+				var onFullScreenExit = function () {
+					this.off('change', onFullScreenExit);
+					resolve();
+				}.bind(this);
+
+				document[fn.exitFullscreen]();
+
+				this.on('change', onFullScreenExit);
+			}.bind(this));
 		},
 		toggle: function (elem) {
-			if (this.isFullscreen) {
-				this.exit();
-			} else {
-				this.request(elem);
+			return this.isFullscreen ? this.exit() : this.request(elem);
+		},
+		onchange: function (callback) {
+			this.on('change', callback);
+		},
+		onerror: function (callback) {
+			this.on('error', callback);
+		},
+		on: function (event, callback) {
+			var eventName = eventNameMap[event];
+			if (eventName) {
+				document.addEventListener(eventName, callback, false);
+			}
+		},
+		off: function (event, callback) {
+			var eventName = eventNameMap[event];
+			if (eventName) {
+				document.removeEventListener(eventName, callback, false);
 			}
 		},
 		raw: fn
