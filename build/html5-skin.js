@@ -3065,7 +3065,8 @@ var ControlBar = React.createClass({displayName: "ControlBar",
   render: function () {
     var controlBarClass = ClassNames({
       "oo-control-bar": true,
-      "oo-control-bar-hidden": !this.props.controlBarVisible
+      "oo-control-bar-hidden": !this.props.controlBarVisible,
+      "oo-control-bar-formed-next-up": this.props.controller.state.formedNextUpVisible
     });
 
     var controlBarItems = this.populateControlBar();
@@ -3798,7 +3799,7 @@ module.exports = DiscoveryPanel;
 
 },{"../components/icon":31,"../constants/constants":51,"../mixins/resizeMixin":56,"./countDownClock":24,"./discoverItem":27,"classnames":68,"react":231,"react-dom":74}],29:[function(require,module,exports){
 /********************************************************************
-  UP NEXT PANEL
+  NEXT UP PANEL
 *********************************************************************/
 /**
 * The screen used while the video is playing.
@@ -3808,6 +3809,7 @@ module.exports = DiscoveryPanel;
 */
 var React = require('react'),
     CONSTANTS = require('./../constants/constants'),
+    ClassNames = require('classnames'),
     Utils = require('./utils'),
     // CloseButton = require('./closeButton'),
     CountDownClock = require('./countDownClock'),
@@ -3825,30 +3827,54 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
     this.props.controller.mb.publish('NEXTUPTRIGGER');
   },
 
+  handleFormedNextUpPanelExpandCollapse: function(event) {
+    event.preventDefault();
+    this.props.controller.state.formedNextUpCollapsed = !this.props.controller.state.formedNextUpCollapsed;
+  },
+
   render: function() {
     var thumbnailStyle = {};
     if (Utils.isValidString(this.props.controller.state.playerParam.nextUp.thumbnailUrl)) {
       thumbnailStyle.backgroundImage = "url('" + this.props.controller.state.playerParam.nextUp.thumbnailUrl + "')";
     }
 
+    var countdownString = "";
+    if (this.props.controller.state.formedNextUpCountdown && this.props.controller.state.formedNextUpCountdown < 11) {
+      countdownString = ": ";
+      countdownString += parseInt(this.props.controller.state.formedNextUpCountdown);
+      countdownString += " SECOND";
+      if (parseInt(this.props.controller.state.formedNextUpCountdown) !== 1) {
+        countdownString += "S";
+      }
+    }
+
+    if (!this.props.controller.state.formedNextUpVisible) {
+      return null;
+    }
+
+    var nextUpClass = ClassNames({
+      "formed-next-up": true,
+      "formed-next-up-collapsed": !this.props.controller.state.formedNextUpCollapsed,
+    });
+
     return (
-      React.createElement("div", {className: "formed-next-up"}, 
+      React.createElement("div", {className: nextUpClass}, 
+        React.createElement("a", {className: "formed-next-up-panel-control", onClick: this.handleFormedNextUpPanelExpandCollapse}, 
+          React.createElement(Icon, React.__spread({},  this.props, {icon: "play"}))
+        ), 
         React.createElement("a", {className: "formed-next-up-thumbnail", onClick: this.handleFormedNextUpClick, style: thumbnailStyle}, 
           React.createElement(Icon, React.__spread({},  this.props, {icon: "play"}))
         ), 
 
         React.createElement("div", {className: "formed-next-up-metadata"}, 
           React.createElement("div", {className: "formed-next-up-title"}, 
-            "// ", React.createElement(CountDownClock, React.__spread({},  this.props, {timeToShow: this.props.skinConfig.nextUp.timeToShow, currentPlayhead: this.props.currentPlayhead})), 
-
-            React.createElement("div", {className: "formed-next-up-text"}, "UP NEXT"), 
+            React.createElement("span", {className: "formed-next-up-text"}, "UP NEXT", countdownString), 
 
             React.createElement("div", {className: "oo-up-next-title-text oo-text-truncate"}, 
               React.createElement("span", {dangerouslySetInnerHTML: Utils.createMarkup(this.props.controller.state.playerParam.nextUp.title)})
             )
-          ), 
+          )
 
-          React.createElement("div", {className: "oo-content-description oo-text-truncate", dangerouslySetInnerHTML: Utils.createMarkup(this.props.nextUpInfo.nextUpData.description)})
         )
 
       )
@@ -3893,7 +3919,7 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
 
 module.exports = FormedNextUpPanel;
 
-},{"../components/icon":31,"./../constants/constants":51,"./countDownClock":24,"./utils":46,"react":231}],30:[function(require,module,exports){
+},{"../components/icon":31,"./../constants/constants":51,"./countDownClock":24,"./utils":46,"classnames":68,"react":231}],30:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var CONSTANTS = require('../../constants/constants');
@@ -8039,7 +8065,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "7b9db34be267b2fbc1de424668e180a1ac055eff"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e94fdb749c78b376511f01ebefee7b51aa59fa2a"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8574,6 +8600,17 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       // custom for FORMED TOPIC SHARING
       if((this.state.min && currentPlayhead < this.state.min - 1) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
+      }
+      
+      // custom for FORMED NEXT UP
+      if (this.state.playerParam.nextUp) {
+        if (this.state.playerParam.nextUp.overlayShowPlayheadValue && this.state.playerParam.nextUp.overlayShowPlayheadValue < currentPlayhead || (duration - currentPlayhead < 10)) {
+          this.state.formedNextUpVisible = true;
+          this.state.formedNextUpCountdown = duration - currentPlayhead;
+        } else {
+          this.state.formedNextUpVisible = false;
+          this.state.formedNextUpCountdown = false;
+        }
       }
 
       if (videoId == OO.VIDEO.MAIN) {
@@ -11224,6 +11261,7 @@ var React = require('react'),
     ControlBar = require('../components/controlBar'),
     AdOverlay = require('../components/adOverlay'),
     UpNextPanel = require('../components/upNextPanel'),
+    FormedNextUpPanel = require('../components/formedNextUpPanel'),
     TextTrack = require('../components/textTrackPanel'),
     Watermark = require('../components/watermark'),
     ResizeMixin = require('../mixins/resizeMixin'),
@@ -11372,6 +11410,11 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
       :
       null;
 
+    var formedNextUpPanel = (this.props.controller.state.playerParam.nextUp && this.props.controller.state.playerParam.nextUp.thumbnailUrl) ?
+      React.createElement(FormedNextUpPanel, React.__spread({},  this.props, 
+        {controlBarVisible: this.state.controlBarVisible, 
+        currentPlayhead: this.props.currentPlayhead})) : null;
+
     var viewControlsVr = this.props.controller.videoVr ?
       React.createElement(ViewControlsVr, React.__spread({}, 
         this.props, 
@@ -11430,6 +11473,8 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
 
           upNextPanel, 
 
+          formedNextUpPanel, 
+
           React.createElement(ControlBar, React.__spread({}, 
             this.props, 
             {controlBarVisible: this.state.controlBarVisible, 
@@ -11443,7 +11488,7 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
 });
 module.exports = PauseScreen;
 
-},{"../components/adOverlay":8,"../components/controlBar":23,"../components/icon":31,"../components/shareButton":35,"../components/textTrackPanel":40,"../components/upNextPanel":45,"../components/utils":46,"../components/viewControlsVr":48,"../components/watermark":50,"../mixins/animateMixin":55,"../mixins/resizeMixin":56,"./../constants/constants":51,"classnames":68,"react":231,"react-dom":74}],64:[function(require,module,exports){
+},{"../components/adOverlay":8,"../components/controlBar":23,"../components/formedNextUpPanel":29,"../components/icon":31,"../components/shareButton":35,"../components/textTrackPanel":40,"../components/upNextPanel":45,"../components/utils":46,"../components/viewControlsVr":48,"../components/watermark":50,"../mixins/animateMixin":55,"../mixins/resizeMixin":56,"./../constants/constants":51,"classnames":68,"react":231,"react-dom":74}],64:[function(require,module,exports){
 /********************************************************************
   PLAYING SCREEN
 *********************************************************************/

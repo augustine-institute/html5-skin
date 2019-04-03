@@ -1,5 +1,5 @@
 /********************************************************************
-  UP NEXT PANEL
+  NEXT UP PANEL
 *********************************************************************/
 /**
 * The screen used while the video is playing.
@@ -9,6 +9,7 @@
 */
 var React = require('react'),
     CONSTANTS = require('./../constants/constants'),
+    ClassNames = require('classnames'),
     Utils = require('./utils'),
     // CloseButton = require('./closeButton'),
     CountDownClock = require('./countDownClock'),
@@ -26,30 +27,54 @@ var FormedNextUpPanel = React.createClass({
     this.props.controller.mb.publish('NEXTUPTRIGGER');
   },
 
+  handleFormedNextUpPanelExpandCollapse: function(event) {
+    event.preventDefault();
+    this.props.controller.state.formedNextUpCollapsed = !this.props.controller.state.formedNextUpCollapsed;
+  },
+
   render: function() {
     var thumbnailStyle = {};
     if (Utils.isValidString(this.props.controller.state.playerParam.nextUp.thumbnailUrl)) {
       thumbnailStyle.backgroundImage = "url('" + this.props.controller.state.playerParam.nextUp.thumbnailUrl + "')";
     }
 
+    var countdownString = "";
+    if (this.props.controller.state.formedNextUpCountdown && this.props.controller.state.formedNextUpCountdown < 11) {
+      countdownString = ": ";
+      countdownString += parseInt(this.props.controller.state.formedNextUpCountdown);
+      countdownString += " SECOND";
+      if (parseInt(this.props.controller.state.formedNextUpCountdown) !== 1) {
+        countdownString += "S";
+      }
+    }
+
+    if (!this.props.controller.state.formedNextUpVisible) {
+      return null;
+    }
+
+    var nextUpClass = ClassNames({
+      "formed-next-up": true,
+      "formed-next-up-collapsed": !this.props.controller.state.formedNextUpCollapsed,
+    });
+
     return (
-      <div className="formed-next-up">
+      <div className={nextUpClass}>
+        <a className="formed-next-up-panel-control" onClick={this.handleFormedNextUpPanelExpandCollapse}>
+          <Icon {...this.props} icon="play"/>
+        </a>
         <a className="formed-next-up-thumbnail" onClick={this.handleFormedNextUpClick} style={thumbnailStyle}>
           <Icon {...this.props} icon="play"/>
         </a>
 
         <div className="formed-next-up-metadata">
           <div className="formed-next-up-title">
-            // <CountDownClock {...this.props} timeToShow={this.props.skinConfig.nextUp.timeToShow} currentPlayhead={this.props.currentPlayhead}/>
-
-            <div className="formed-next-up-text">UP NEXT</div>
+            <span className="formed-next-up-text">UP NEXT{countdownString}</span>
 
             <div className="oo-up-next-title-text oo-text-truncate">
               <span dangerouslySetInnerHTML={Utils.createMarkup(this.props.controller.state.playerParam.nextUp.title)}></span>
             </div>
           </div>
 
-          <div className="oo-content-description oo-text-truncate" dangerouslySetInnerHTML={Utils.createMarkup(this.props.nextUpInfo.nextUpData.description)}></div>
         </div>
 
       </div>

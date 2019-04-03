@@ -558,6 +558,17 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       if((this.state.min && currentPlayhead < this.state.min - 1) || (this.state.max && currentPlayhead > this.state.max)) {
         this.mb.publish(OO.EVENTS.PAUSE);
       }
+      
+      // custom for FORMED NEXT UP
+      if (this.state.playerParam.nextUp) {
+        if (this.state.playerParam.nextUp.overlayShowPlayheadValue && this.state.playerParam.nextUp.overlayShowPlayheadValue < currentPlayhead || (duration - currentPlayhead < 10)) {
+          this.state.formedNextUpVisible = true;
+          this.state.formedNextUpCountdown = duration - currentPlayhead;
+        } else {
+          this.state.formedNextUpVisible = false;
+          this.state.formedNextUpCountdown = false;
+        }
+      }
 
       if (videoId == OO.VIDEO.MAIN) {
         this.state.mainVideoPlayhead = currentPlayhead;
