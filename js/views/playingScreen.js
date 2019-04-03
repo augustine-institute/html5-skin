@@ -7,6 +7,7 @@ var React = require('react'),
   AdOverlay = require('../components/adOverlay'),
   ClassNames = require('classnames'),
   UpNextPanel = require('../components/upNextPanel'),
+  FormedNextUpPanel = require('../components/formedNextUpPanel'),
   Spinner = require('../components/spinner'),
   TextTrack = require('../components/textTrackPanel'),
   Watermark = require('../components/watermark'),
@@ -190,6 +191,11 @@ var PlayingScreen = React.createClass({
         controlBarVisible={this.state.controlBarVisible}
         currentPlayhead={this.props.currentPlayhead}/> : null;
 
+    var formedNextUpPanel = (this.props.controller.state.playerParam.nextUp && this.props.controller.state.playerParam.nextUp.thumbnailUrl) ?
+      <FormedNextUpPanel {...this.props}
+        controlBarVisible={this.state.controlBarVisible}
+        currentPlayhead={this.props.currentPlayhead}/> : null;
+
     var viewControlsVr = this.props.controller.videoVr ?
       <ViewControlsVr
         {...this.props}
@@ -240,6 +246,8 @@ var PlayingScreen = React.createClass({
         {adOverlay}
 
         {upNextPanel}
+
+        {formedNextUpPanel}
 
         <ControlBar {...this.props}
           controlBarVisible={this.state.controlBarVisible}
