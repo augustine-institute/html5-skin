@@ -3830,6 +3830,11 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
   handleFormedNextUpPanelExpandCollapse: function(event) {
     event.preventDefault();
     this.props.controller.state.formedNextUpCollapsed = !this.props.controller.state.formedNextUpCollapsed;
+    if (this.props.controller.state.formedNextUpCollapsed) {
+      this.props.controller.mb.publish('NEXTUPCOLLAPSE');
+    } else {
+      this.props.controller.mb.publish('NEXTUPEXPAND');
+    }
   },
 
   render: function() {
@@ -8065,7 +8070,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "63e87935c38c54185a06471139b757147db26c4c"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "82be11579d7b0cf5aa3df9b22114c4b569639d12"};
   }
 
   var Html5Skin = function (mb, id) {
