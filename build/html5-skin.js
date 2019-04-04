@@ -3857,10 +3857,17 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
       "formed-next-up-collapsed": !!this.props.controller.state.formedNextUpCollapsed,
     });
 
+    var collapseControlClass = ClassNames({
+      "fa": true,
+      "fa-angle-down": !this.props.controller.state.formedNextUpCollapsed,
+      "fa-angle-up": this.props.controller.state.formedNextUpCollapsed,
+
+    })
+
     return (
       React.createElement("div", {className: nextUpClass}, 
         React.createElement("a", {className: "formed-next-up-panel-control", onClick: this.handleFormedNextUpPanelExpandCollapse}, 
-          React.createElement(Icon, React.__spread({},  this.props, {icon: "play"}))
+          React.createElement("i", {className: collapseControlClass})
         ), 
         React.createElement("a", {className: "formed-next-up-thumbnail", onClick: this.handleFormedNextUpClick, style: thumbnailStyle}, 
           React.createElement(Icon, React.__spread({},  this.props, {icon: "play"}))
