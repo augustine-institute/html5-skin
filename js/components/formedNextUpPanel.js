@@ -30,6 +30,11 @@ var FormedNextUpPanel = React.createClass({
   handleFormedNextUpPanelExpandCollapse: function(event) {
     event.preventDefault();
     this.props.controller.state.formedNextUpCollapsed = !this.props.controller.state.formedNextUpCollapsed;
+    if (this.props.controller.state.formedNextUpCollapsed) {
+      this.props.controller.mb.publish('NEXTUPCOLLAPSE');
+    } else {
+      this.props.controller.mb.publish('NEXTUPEXPAND');
+    }
   },
 
   render: function() {
