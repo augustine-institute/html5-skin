@@ -560,8 +560,8 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       }
       
       // custom for FORMED NEXT UP
-      if (this.state.playerParam.nextUp) {
-        if (this.state.playerParam.nextUp.overlayShowPlayheadValue && this.state.playerParam.nextUp.overlayShowPlayheadValue < currentPlayhead || (duration - currentPlayhead < 10)) {
+      if (this.state.playerParam.nextUp && this.state.playerParam.nextUp.title && this.state.playerParam.nextUp.thumbnailUrl) {
+        if (this.state.playerParam.nextUp.timingOverride && this.state.playerParam.nextUp.timingOverride < currentPlayhead || (duration - currentPlayhead < 10)) {
           this.state.formedNextUpVisible = true;
           this.state.formedNextUpCountdown = duration - currentPlayhead;
         } else {
@@ -786,6 +786,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
       // In case a video plugin fires PLAYED event after stalling without firing BUFFERED or PLAYING first
       this.setBufferingState(false);
+
+      // custom for FORMED Next Up; this triggers autoplay if it is set
+      this.mb.publish('NEXTUPTRIGGER', false);
 
       this.renderSkin();
     },

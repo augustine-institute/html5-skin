@@ -3824,7 +3824,7 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
 
   handleFormedNextUpClick: function(event) {
     event.preventDefault();
-    this.props.controller.mb.publish('NEXTUPTRIGGER');
+    this.props.controller.mb.publish('NEXTUPTRIGGER', true);
   },
 
   handleFormedNextUpPanelExpandCollapse: function(event) {
@@ -3854,7 +3854,7 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
 
     var nextUpClass = ClassNames({
       "formed-next-up": true,
-      "formed-next-up-collapsed": !this.props.controller.state.formedNextUpCollapsed,
+      "formed-next-up-collapsed": !!this.props.controller.state.formedNextUpCollapsed,
     });
 
     return (
@@ -8065,7 +8065,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "e94fdb749c78b376511f01ebefee7b51aa59fa2a"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "63e87935c38c54185a06471139b757147db26c4c"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -8603,8 +8603,8 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       }
       
       // custom for FORMED NEXT UP
-      if (this.state.playerParam.nextUp) {
-        if (this.state.playerParam.nextUp.overlayShowPlayheadValue && this.state.playerParam.nextUp.overlayShowPlayheadValue < currentPlayhead || (duration - currentPlayhead < 10)) {
+      if (this.state.playerParam.nextUp && this.state.playerParam.nextUp.title && this.state.playerParam.nextUp.thumbnailUrl) {
+        if (this.state.playerParam.nextUp.timingOverride && this.state.playerParam.nextUp.timingOverride < currentPlayhead || (duration - currentPlayhead < 10)) {
           this.state.formedNextUpVisible = true;
           this.state.formedNextUpCountdown = duration - currentPlayhead;
         } else {
@@ -8829,6 +8829,9 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
       // In case a video plugin fires PLAYED event after stalling without firing BUFFERED or PLAYING first
       this.setBufferingState(false);
+
+      // custom for FORMED Next Up; this triggers autoplay if it is set
+      this.mb.publish('NEXTUPTRIGGER', false);
 
       this.renderSkin();
     },

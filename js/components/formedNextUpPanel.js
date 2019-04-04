@@ -24,7 +24,7 @@ var FormedNextUpPanel = React.createClass({
 
   handleFormedNextUpClick: function(event) {
     event.preventDefault();
-    this.props.controller.mb.publish('NEXTUPTRIGGER');
+    this.props.controller.mb.publish('NEXTUPTRIGGER', true);
   },
 
   handleFormedNextUpPanelExpandCollapse: function(event) {
@@ -54,7 +54,7 @@ var FormedNextUpPanel = React.createClass({
 
     var nextUpClass = ClassNames({
       "formed-next-up": true,
-      "formed-next-up-collapsed": !this.props.controller.state.formedNextUpCollapsed,
+      "formed-next-up-collapsed": !!this.props.controller.state.formedNextUpCollapsed,
     });
 
     return (
