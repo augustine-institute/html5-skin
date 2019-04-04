@@ -899,7 +899,8 @@ var ControlBar = React.createClass({
   render: function () {
     var controlBarClass = ClassNames({
       "oo-control-bar": true,
-      "oo-control-bar-hidden": !this.props.controlBarVisible
+      "oo-control-bar-hidden": !this.props.controlBarVisible,
+      "oo-control-bar-formed-next-up": this.props.controller.state.formedNextUpVisible
     });
 
     var controlBarItems = this.populateControlBar();

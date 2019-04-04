@@ -7,6 +7,7 @@ var React = require('react'),
     ControlBar = require('../components/controlBar'),
     AdOverlay = require('../components/adOverlay'),
     UpNextPanel = require('../components/upNextPanel'),
+    FormedNextUpPanel = require('../components/formedNextUpPanel'),
     TextTrack = require('../components/textTrackPanel'),
     Watermark = require('../components/watermark'),
     ResizeMixin = require('../mixins/resizeMixin'),
@@ -155,6 +156,11 @@ var PauseScreen = React.createClass({
       :
       null;
 
+    var formedNextUpPanel = (this.props.controller.state.playerParam.nextUp && this.props.controller.state.playerParam.nextUp.thumbnailUrl) ?
+      <FormedNextUpPanel {...this.props}
+        controlBarVisible={this.state.controlBarVisible}
+        currentPlayhead={this.props.currentPlayhead}/> : null;
+
     var viewControlsVr = this.props.controller.videoVr ?
       <ViewControlsVr
         {...this.props}
@@ -212,6 +218,8 @@ var PauseScreen = React.createClass({
           {adOverlay}
 
           {upNextPanel}
+
+          {formedNextUpPanel}
 
           <ControlBar
             {...this.props}
