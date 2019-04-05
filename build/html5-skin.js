@@ -3835,6 +3835,8 @@ var FormedNextUpPanel = React.createClass({displayName: "FormedNextUpPanel",
     } else {
       this.props.controller.mb.publish('NEXTUPEXPAND');
     }
+    // NOTE This is a hack to allow expand/collapse to work on the pause screen FWD-4985
+    this.forceUpdate();
   },
 
   render: function() {
@@ -8077,7 +8079,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "63e87935c38c54185a06471139b757147db26c4c"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.19.3", "rev": "2e0460386a2532253ee63762cb13638ae9f104f2"};
   }
 
   var Html5Skin = function (mb, id) {

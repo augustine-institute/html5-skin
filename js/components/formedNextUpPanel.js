@@ -35,6 +35,8 @@ var FormedNextUpPanel = React.createClass({
     } else {
       this.props.controller.mb.publish('NEXTUPEXPAND');
     }
+    // NOTE This is a hack to allow expand/collapse to work on the pause screen FWD-4985
+    this.forceUpdate();
   },
 
   render: function() {
